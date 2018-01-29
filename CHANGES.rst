@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.1.5a2 (2018-01-29)
+0.1.5a3 (2018-01-29)
 --------------------
 - Development moved to github.
 - General improvements and update.
