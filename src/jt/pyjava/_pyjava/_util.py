@@ -18,17 +18,15 @@ def from_utf8(utf8):
     #
     # @param utf8 Standard UTF-8 representation of the string; might contain null bytes.
     # @return A reference (as jvm.JObject) to a String object.
-
-    # string = new String(utf8, "UTF-8");
+    #
+    # Equivalent of: string = new String(utf8, "UTF-8");
 
     from ctypes import c_char_p
     from ...jvm import jni
     from ...jvm.jframe import JFrame
     from ._jvm  import JVM
 
-    jt_jvm = JVM.jvm
-
-    with jt_jvm as (jvm, jenv), JFrame(jenv, 3):
+    with JVM.jvm as (jvm, jenv), JFrame(jenv, 3):
         jbarr = jenv.NewByteArray(len(utf8))
         jutf8 = jenv.NewStringUTF(b"UTF-8")
         jenv.SetByteArrayRegion(jbarr, 0, len(utf8),
@@ -40,4 +38,4 @@ def from_utf8(utf8):
         jargs[1].l = jutf8
         jstr = jni.cast(jenv.NewObject(jvm.String.Class,
                                        String_Constructor_bytes, jargs), jni.jstring)
-        return jt_jvm.JObject(jenv, jstr)
+        return JVM.jvm.JObject(jenv, jstr)
