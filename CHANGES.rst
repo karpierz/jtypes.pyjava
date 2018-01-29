@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.1.5a1 (2018-01-29)
+--------------------
+- Development moved to github.
+- General improvements and update.
+
 0.0.16a1 (2017-05-13)
 ---------------------
 - First alpha release.

@@ -13,7 +13,7 @@ def start(path=None, *args):
         finder = JVMFinder()
         path = finder.get_jvm_path()
 
-    if len(args) == 1 and isinstance(args[0], list):
+    if len(args) == 1 and isinstance(args[0], (list, tuple)):  # <AK> add tuple
         args = args[0]
 
     try:
