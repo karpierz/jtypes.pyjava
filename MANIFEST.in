@@ -1,0 +1,15 @@
+include README.rst
+include CHANGES.rst
+include LICENSE
+include tox.ini
+
+graft src
+#exclude src/jt/pyjava/_pyjava/_typehandler.py
+
+graft docs
+prune docs/_build
+
+graft tests
+
+global-exclude .build .build.*
+global-exclude *.py[co] __pycache__
