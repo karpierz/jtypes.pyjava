@@ -49,6 +49,3 @@ class JVM(_JVM):
 
         self.type_handler.stop()
         super(JVM, self).shutdown()
-
-
-# eof

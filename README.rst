@@ -47,6 +47,18 @@ Requirements
 Installation
 ============
 
+Prerequisites:
+
++ Python 2.7 or higher or 3.4 or higher
+
+  * http://www.python.org/
+  * 2.7 and 3.4 are primary test environments.
+
++ pip and setuptools
+
+  * http://pypi.python.org/pypi/pip
+  * http://pypi.python.org/pypi/setuptools
+
 To install run::
 
     python -m pip install --upgrade jtypes.pyjava
@@ -75,19 +87,6 @@ Prerequisites:
 + Development is strictly based on *tox*. To install it run::
 
     python -m pip install tox
-
-Prerequisites:
-
-+ Python 2.7 or higher or 3.4 or higher
-
-  * http://www.python.org/
-  * Versions lower than 2.7 or lower than 3.4 WON'T WORK.
-  * 2.7 and 3.4 are primary test environments.
-
-+ pip and setuptools
-
-  * http://pypi.python.org/pypi/pip
-  * http://pypi.python.org/pypi/setuptools
 
 License
 =======
