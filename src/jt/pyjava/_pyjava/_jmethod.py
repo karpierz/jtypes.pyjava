@@ -13,7 +13,6 @@ from ...jvm.lib import public
 from ...jvm.lib import cached
 
 from ._constants  import EMatchType
-
 from ._jfield     import FIELD_STATIC, FIELD_NONSTATIC, FIELD_BOTH
 from ._exceptions import NoMatchingOverload
 

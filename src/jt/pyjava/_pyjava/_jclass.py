@@ -6,9 +6,8 @@ from ...jvm.lib.compat import *
 from ...jvm.lib import annotate
 from ...jvm.lib import public
 
-from ...jvm      import EJavaModifiers
-from ._constants import EMatchType
-
+from ...jvm       import EJavaModifiers
+from ._constants  import EMatchType
 from ._jfield     import FIELD_STATIC, FIELD_NONSTATIC, FIELD_BOTH
 from ._jmethod    import UnboundMethod, BoundMethod, ClassMethod, JavaMethodOverload
 from ._exceptions import FieldTypeError
