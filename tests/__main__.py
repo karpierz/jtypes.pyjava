@@ -26,7 +26,7 @@ def test_suite(names=None, omit=("runtests", "base")):
     return tests
 
 
-def runTest():
+def main():
 
     try:
         tests = test_suite(sys.argv[1:] or None)
@@ -37,11 +37,7 @@ def runTest():
     sys.exit(0 if result.wasSuccessful() else 1)
 
 
-def main():
-
+if __name__.rpartition(".")[-1] == "__main__":
     # logging.basicConfig(level=logging.INFO)
     # logging.basicConfig(level=logging.DEBUG)
-    runTest()
-
-
-main()
+    main()
