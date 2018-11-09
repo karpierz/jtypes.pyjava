@@ -19,6 +19,8 @@ from ._exceptions import NoMatchingOverload
 
 class JavaCallable(abcoll.Callable):
 
+    # Equivalent of: jt.jtypes.JavaCallable
+
     def _match_overload(self, what, overloads, *args):
 
         best_ovrs  = []
@@ -47,6 +49,8 @@ class JavaCallable(abcoll.Callable):
 @public
 class Constructor(JavaCallable):
 
+    # Equivalent of: jt.jtypes.JavaConstructor
+
     def __new__(cls):
 
         self = super(Constructor, cls).__new__(cls)
@@ -54,7 +58,7 @@ class Constructor(JavaCallable):
         self.overloads = ()
         return self
 
-    def __call__(self, *args, **kargs):
+    def __call__(self, *args, **kwargs):
 
         from ._jclass import JavaInstance
 
@@ -129,6 +133,7 @@ class UnboundMethod(_Method):
     """Java unbound method"""
 
     # "pyjava.UnboundMethod" # tp_name
+    # Equivalent of: jt.jtypes.JavaMethod
 
     # This represents an unbound method, i.e. a method obtained from the class.
     # It has no instance associated with it. When called, it will be matched
@@ -143,7 +148,7 @@ class UnboundMethod(_Method):
 
     javaclass = property(lambda self: self._jclass.handle)
 
-    def __call__(self, *args, **kargs):
+    def __call__(self, *args, **kwargs):
 
         best_ovr, nonmatches = self._match_overload(FIELD_BOTH, self.overloads, *args)
 
@@ -180,6 +185,7 @@ class BoundMethod(_Method):
     """Java bound method"""
 
     # "pyjava.BoundMethod" # tp_name
+    # Equivalent of: jt.jtypes.JavaBoundMethod
 
     # This represents a bound method, i.e. a method obtained from an instance.
     # It is associated with the instance it was retrieved from. When called, it
@@ -197,7 +203,7 @@ class BoundMethod(_Method):
     javaclass    = property(lambda self: self._jclass.handle)
     javainstance = property(lambda self: self._jinstance.handle)
 
-    def __call__(self, *args, **kargs):
+    def __call__(self, *args, **kwargs):
 
         from ._javawrapper import wrap_instance
 
@@ -252,7 +258,7 @@ class ClassMethod(_Method):
 
     javaclass = property(lambda self: self._jclass.handle)
 
-    def __call__(self, *args, **kargs):
+    def __call__(self, *args, **kwargs):
 
         from ._javawrapper import wrap_class
 
@@ -271,6 +277,8 @@ class ClassMethod(_Method):
 
 @public
 class JavaMethodOverload(object):
+
+    # Equivalent of: jt.jtypes.JavaMethodOverload
 
     class ParamInfo(object):
 
@@ -302,7 +310,7 @@ class JavaMethodOverload(object):
     @cached
     def __init(self):
 
-        type_handler = self.__jmethod.jvm.type_handler
+        type_manager = self.__jmethod.jvm.type_manager
         # Store the parameters
         param_types = []
         if not self._is_static:  # also if not constructors
@@ -313,12 +321,12 @@ class JavaMethodOverload(object):
             param_types.append(self.__jmethod.getDeclaringClass())
         for jclass in self.__jmethod.getParameterTypes():
             param_types.append(jclass)
-        self._params_info = tuple(self.ParamInfo(type_handler.get_handler(jclass))
+        self._params_info = tuple(self.ParamInfo(type_manager.get_handler(jclass))
                                   for jclass in param_types)
         # Store the return type
         if isinstance(self.__jmethod, self.__jmethod.jvm.JMethod):
             jclass = self.__jmethod.getReturnType()
-            self._return_info = self.ReturnInfo(type_handler.get_handler(jclass))
+            self._return_info = self.ReturnInfo(type_manager.get_handler(jclass))
         else:
             self._return_info = None
 
@@ -326,10 +334,11 @@ class JavaMethodOverload(object):
 
         self.__init()
 
+        arg_count  = len(args)
         par_descrs = self._params_info
         par_count  = len(par_descrs)
 
-        if par_count != len(args):
+        if arg_count != par_count:
             return EMatchType.NONE
 
         best_match = EMatchType.PERFECT
@@ -365,12 +374,12 @@ class JavaMethodOverload(object):
 
     def __make_arguments(self, args):
 
-        from ..__config__ import WITH_VALID
+        from ..__config__ import config
 
         self.__init()
 
-        par_descrs = self._params_info
         arg_count  = len(args)
+        par_descrs = self._params_info
         pos0       = 0 if self._is_static else 1
 
         jargs = self.__jmethod.jvm.JArguments(arg_count)
@@ -378,11 +387,12 @@ class JavaMethodOverload(object):
             pdescr   = par_descrs[pos]
             arg      = args[pos]
             thandler = pdescr.thandler
-            if WITH_VALID and not thandler.valid(arg):
+            if config.getboolean("WITH_VALID", False) and not thandler.valid(arg):
                 raise ValueError("Parameter value is not valid for required parameter type.")
             thandler.setArgument(pdescr, jargs, pos - pos0, arg)
 
         return jargs
 
     def __close_arguments(self, jargs, args):
+
         pass

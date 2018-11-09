@@ -3,7 +3,9 @@ include CHANGES.rst
 include LICENSE
 include tox.ini
 
-graft jt
+graft src
+#prune src/jt/pyjava/_pyjava/_typehandler
+#include src/jt/pyjava/_pyjava/_typehandler/__init__.py
 
 graft docs
 prune docs/_build

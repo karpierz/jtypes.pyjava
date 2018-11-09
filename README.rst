@@ -8,10 +8,12 @@ A Python to Java bridge.
 Overview
 ========
 
-  | jtypes.pyjava is a bridge allowing to use Java classes in regular Python code.
-  |
-  | jtypes.pyjava is a lightweight Python package, based on the *ctypes* or *cffi* library.
-  | It is an almost fully compliant implementation of Remi Rampin's *PyJava* package
+  | **jtypes.pyjava** is a bridge allowing to use Java classes in regular Python code.
+
+  `PyPI record <https://pypi.python.org/pypi/jtypes.pyjava>`__.
+
+  | **jtypes.pyjava** is a lightweight Python package, based on the *ctypes* or *cffi* library.
+  | It is an almost fully compliant implementation of Remi Rampin's **PyJava** package
     by reimplementing whole its functionality in a clean Python instead of C/C++.
 
 
@@ -20,24 +22,24 @@ About PyJava:
 
 Borrowed from the `original website <https://github.com/remram44/pyjava/blob/master/README.md>`__:
 
-    PyJava is a bridge allowing to use Java classes in regular Python code.
-    It is similar to `JPype <http://jpype.sourceforge.net/>`__.
+  | **PyJava** is a bridge allowing to use Java classes in regular Python code.
+  | It is similar to `JPype <http://jpype.sourceforge.net/>`__.
 
-    It is a C extension that uses JNI to access a Java virtual machine,
-    meaning that it can be used anywhere Python is available. It is not
-    a different interpreter like `Jython <http://jython.org/>`__ and does
-    not require anything, other than a JRE. The JVM dynamic library is load
-    dynamically through pyjava.start() (some basic logic for locating this
-    library on major platforms will be provided).
+  It is a C extension that uses JNI to access a Java virtual machine,
+  meaning that it can be used anywhere Python is available. It is not
+  a different interpreter like `Jython <http://jython.org/>`__ and does
+  not require anything, other than a JRE. The JVM dynamic library is load
+  dynamically through pyjava.start() (some basic logic for locating this
+  library on major platforms will be provided).
 
-    The integration with Java code is meant to be as complete as possible,
-    allowing to use Java and Python objects seemlessly and converting objects
-    back and forth when Java code is called. Furthermore, subclassing Java
-    classes or interfaces in Python code to allow callback from Java is planned
-    for the 0.2 version.
+  The integration with Java code is meant to be as complete as possible,
+  allowing to use Java and Python objects seemlessly and converting objects
+  back and forth when Java code is called. Furthermore, subclassing Java
+  classes or interfaces in Python code to allow callback from Java is planned
+  for the 0.2 version.
 
-    Please note that this extension is still at a very early stage of
-    development and probably shouldn't be used for anything.
+  Please note that this extension is still at a very early stage of
+  development and probably shouldn't be used for anything.
 
 Requirements
 ============
@@ -52,7 +54,7 @@ Prerequisites:
 + Python 2.7 or higher or 3.4 or higher
 
   * http://www.python.org/
-  * 2.7 and 3.4 are primary test environments.
+  * 2.7 and 3.6 are primary test environments.
 
 + pip and setuptools
 
@@ -100,4 +102,4 @@ License
 Authors
 =======
 
-* Adam Karpierz <python@python.pl>
+* Adam Karpierz <adam@karpierz.net>

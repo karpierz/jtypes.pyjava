@@ -5,7 +5,7 @@
 from __future__ import absolute_import
 
 import os
-import os.path as osp
+from os import path
 
 from ...jvm.platform import _jvmfinder
 
@@ -27,9 +27,9 @@ class JVMFinder(_jvmfinder.JVMFinder):
         java_home = os.getenv("JAVA_HOME")
 
         if java_home:
-            if osp.isdir(java_home):
-                dll_file = osp.join(java_home, "JavaVM")
-                if osp.isfile(dll_file):
+            if path.isdir(java_home):
+                dll_file = path.join(java_home, "JavaVM")
+                if path.isfile(dll_file):
                     return dll_file
         # Apparently the DLL is always at the same place on OSX
         return "/System/Library/Frameworks/JavaVM.framework/JavaVM"

@@ -6,8 +6,8 @@ from ...jvm.lib.compat import *
 from ...jvm.lib import annotate
 from ...jvm.lib import public
 
-from ...jvm       import EJavaModifiers
 from ._constants  import EMatchType
+from ._constants  import EJavaModifiers
 from ._jfield     import FIELD_STATIC, FIELD_NONSTATIC, FIELD_BOTH
 from ._jmethod    import UnboundMethod, BoundMethod, ClassMethod, JavaMethodOverload
 from ._exceptions import FieldTypeError
@@ -19,6 +19,7 @@ class JavaClass(object):
     """Java class wrapper"""
 
     # "pyjava.JavaClass" # tp_name
+    # Equivalent of: jt.jtypes.JavaClass
 
     # JavaClass type.
     #
@@ -26,7 +27,7 @@ class JavaClass(object):
     # It can be called to make a new instance of that Java type,
     # or accessed for either static fields or unbound methods (static or not).
 
-    def __new__(cls, *args, **kargs):
+    def __new__(cls, *args, **kwargs):
 
         if len(args) != 0:
             raise NotImplementedError("Subclassing Java classes is not supported")
@@ -56,7 +57,7 @@ class JavaClass(object):
 
         return self._jclass.isAssignableFrom(instance._jobject.getClass())
 
-    def __call__(self, *args, **kargs):
+    def __call__(self, *args, **kwargs):
 
         return self.constructor(*args)
 
@@ -88,7 +89,7 @@ class JavaClass(object):
             if not is_static:
                 raise AttributeError("field doesn't have the required type")
 
-            thandler = jfield.jvm.type_handler.get_handler(jfield.getType())
+            thandler = jfield.jvm.type_manager.get_handler(jfield.getType())
             return thandler.getStatic(jfield, self._jclass)
 
         except AttributeError:
@@ -118,7 +119,7 @@ class JavaClass(object):
             super(JavaClass, self).__setattr__(name, value)
             return
 
-        from ..__config__ import WITH_VALID
+        from ..__config__ import config
 
         try:
             try:
@@ -131,13 +132,13 @@ class JavaClass(object):
             if not is_static:
                 raise AttributeError("field doesn't have the required type")
 
-            thandler = jfield.jvm.type_handler.get_handler(jfield.getType())
+            thandler = jfield.jvm.type_manager.get_handler(jfield.getType())
 
             if thandler.match(value) <= EMatchType.EXPLICIT:
                 raise FieldTypeError("Java static attribute {} has incompatible type".format(
                                      name))
 
-            if WITH_VALID and not thandler.valid(value):
+            if config.getboolean("WITH_VALID", False) and not thandler.valid(value):
                 raise ValueError("Assigned value is not valid for required field type.")
 
             thandler.setStatic(jfield, self._jclass, value)
@@ -174,6 +175,7 @@ class JavaClass(object):
         constructors = method_name is None
         if constructors:
             method_name, what = b"<init>", FIELD_STATIC
+            is_static = True
 
         # Create the list of methods.
         # FIXME : we could count the exact number of methods we'll need to store,
@@ -181,9 +183,7 @@ class JavaClass(object):
         overloads = []
         for jmeth in (jclass.getConstructors() if constructors else jclass.getMethods()):
 
-            if constructors:
-                is_static = True
-            else:
+            if not constructors:
                 if jmeth.getName().encode("utf-8") != method_name.encode("utf-8"):
                     continue
                 mods = jmeth.getModifiers()
@@ -207,6 +207,7 @@ class JavaInstance(object):
     """Java object wrapper"""
 
     # "pyjava.JavaInstance" # tp_name
+    # Equivalent of: jt.jtypes.JavaObject
 
     # JavaInstance type.
     #
@@ -247,7 +248,7 @@ class JavaInstance(object):
             if is_static:
                 raise AttributeError("field doesn't have the required type")
 
-            thandler = jfield.jvm.type_handler.get_handler(jfield.getType())
+            thandler = jfield.jvm.type_manager.get_handler(jfield.getType())
             return thandler.getInstance(jfield, self._jobject)
 
         except AttributeError:
@@ -259,7 +260,7 @@ class JavaInstance(object):
             super(JavaInstance, self).__setattr__(name, value)
             return
 
-        from ..__config__ import WITH_VALID
+        from ..__config__ import config
 
         jclass = self._jobject.getClass()
 
@@ -274,13 +275,13 @@ class JavaInstance(object):
             if is_static:
                 raise AttributeError("field doesn't have the required type")
 
-            thandler = jfield.jvm.type_handler.get_handler(jfield.getType())
+            thandler = jfield.jvm.type_manager.get_handler(jfield.getType())
 
             if thandler.match(value) <= EMatchType.EXPLICIT:
                 raise FieldTypeError("Java nonstatic attribute {} has incompatible type".format(
                                      name))
 
-            if WITH_VALID and not thandler.valid(value):
+            if config.getboolean("WITH_VALID", False) and not thandler.valid(value):
                 raise ValueError("Assigned value is not valid for required field type.")
 
             thandler.setInstance(jfield, self._jobject, value)

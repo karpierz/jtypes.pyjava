@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.1.5a6 (2018-11-08)
+--------------------
+- Update of the required setuptools version.
+- Minor setup and tests improvements.
+
 0.1.5a5 (2018-05-22)
 --------------------
 - Update of the required setuptools version.

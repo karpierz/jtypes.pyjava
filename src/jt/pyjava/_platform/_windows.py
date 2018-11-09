@@ -6,7 +6,7 @@ from __future__ import absolute_import
 
 import sys
 import os
-import os.path as osp
+from os import path
 import re
 if sys.version_info.major >= 3:
     import winreg
@@ -34,26 +34,32 @@ class JVMFinder(_jvmfinder.JVMFinder):
 
         if java_home:
             # JAVA_HOME might be set to a JDK; in that case we use the 'jre' subdirectory
-            java_home_jre = osp.join(java_home, "jre")
-            if osp.exists(java_home_jre):
+            java_home_jre = path.join(java_home, "jre")
+            if path.exists(java_home_jre):
                 java_home = java_home_jre
                 sys.stderr.write("Using JRE from JAVA_HOME environment variable (in jre/ subdir)\n")
             else:
                 sys.stderr.write("Using JRE from JAVA_HOME environment variable\n")
-
-            return osp.join(java_home, "bin", "client", "jvm.dll")
         else:
             program_files     = os.getenv("ProgramFiles", r"C:\Program Files")
             program_files_x86 = os.getenv("ProgramFiles(x86)")
 
-            if program_files_x86 is not None and osp.exists(program_files_x86):
+            if program_files_x86 is not None and path.exists(program_files_x86):
                 # On Win64 in 32-bit mode: %ProgramFiles% ==> 'C:\Program Files (x86)'
                 # On Win64 in 64-bit mode: %ProgramFiles% ==> 'C:\Program Files'
                 java_home = self._find_jre(program_files + r"\Java")
             else:
                 java_home = self._find_jre(program_files + r"\Java")
+            if java_home is None:
+                return None
 
-            return osp.join(java_home, "bin", "client", "jvm.dll")
+        # Find the DLL
+        for ddd in ("client", "server"):
+            dll_file = path.join(java_home, "bin", ddd, "jvm.dll")
+            if path.isfile(dll_file):
+                return dll_file
+
+        return None
 
     def _find_jre(self, java_dir):
 
@@ -61,7 +67,7 @@ class JVMFinder(_jvmfinder.JVMFinder):
         JRE_NAME2 = re.compile(r"^jre([0-9])\.([0-9]+)\.([0-9]+)_([0-9]+)$")
         JDK_NAME  = re.compile(r"^jdk([0-9])\.([0-9]+)\.([0-9]+)_([0-9]+)$")
 
-        if not osp.exists(java_dir):
+        if not path.exists(java_dir):
             return None
 
         # Trying JREs
@@ -76,7 +82,7 @@ class JVMFinder(_jvmfinder.JVMFinder):
                     if choice is None or version > choice[1]:
                         choice = subdir, version
         if choice is not None:
-            return osp.join(java_dir, choice[0])
+            return path.join(java_dir, choice[0])
 
         # Trying JDKs
         choice = None
@@ -87,6 +93,6 @@ class JVMFinder(_jvmfinder.JVMFinder):
                 if choice is None or version > choice[1]:
                     choice = subdir, version
         if choice is not None:
-            return osp.join(java_dir, choice[0], "jre")
+            return path.join(java_dir, choice[0], "jre")
 
         return None

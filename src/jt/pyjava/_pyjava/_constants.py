@@ -4,6 +4,11 @@
 
 from ...jvm.lib import public
 from ...jvm.lib import enumc
+from ...jvm import EJavaType
+from ...jvm import EJavaModifiers
+
+public(EJavaType      = EJavaType)
+public(EJavaModifiers = EJavaModifiers)
 
 public(
 EMatchType = enumc(

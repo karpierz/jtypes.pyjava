@@ -6,7 +6,7 @@ from __future__ import absolute_import
 
 import sys
 import os
-import os.path as osp
+from os import path
 import re
 
 from ...jvm.lib import platform
@@ -31,9 +31,9 @@ class JVMFinder(_jvmfinder.JVMFinder):
 
         # If JAVA_HOME is set, only consider this one
         if java_home:
-            java_home_jre = osp.join(java_home, "jre")
+            java_home_jre = path.join(java_home, "jre")
             # JAVA_HOME might be set to a JDK; in that case we use the 'jre' subdirectory
-            if osp.exists(java_home_jre):
+            if path.exists(java_home_jre):
                 java_home = [java_home_jre]
                 sys.stderr.write("Using JRE from JAVA_HOME environment variable (in jre/ subdir)\n")
             else:
@@ -44,7 +44,7 @@ class JVMFinder(_jvmfinder.JVMFinder):
             java_home = []
             for directory in os.listdir("/usr/lib/jvm"):
                 if directory[0] != ".":
-                    directory = osp.join("/usr/lib/jvm", directory)
+                    directory = path.join("/usr/lib/jvm", directory)
                     java_home.append(directory)
 
             # Sort these possible homes
@@ -62,13 +62,13 @@ class JVMFinder(_jvmfinder.JVMFinder):
 
         # Find the DLL
         for d in java_home:
-            d = osp.join(d, "lib")
-            if osp.isdir(d):
+            d = path.join(d, "lib")
+            if path.isdir(d):
                 for dd in os.listdir(d):
-                    dd = osp.join(d, dd)
-                    if osp.isdir(dd):
+                    dd = path.join(d, dd)
+                    if path.isdir(dd):
                         for ddd in ("client", "server"):
-                            dll_file = osp.join(dd, ddd, "libjvm.so")
-                            if osp.isfile(dll_file):
+                            dll_file = path.join(dd, ddd, "libjvm.so")
+                            if path.isfile(dll_file):
                                 return dll_file
         return None

@@ -28,9 +28,8 @@ def start(path, options):
     if not all(isinstance(option, builtins.str) for option in options):
         raise TypeError("Options list contained non-string objects.")
 
-    JVM.jvm = JVM(path.encode("utf-8").decode("utf-8"))
-    _, jenv = JVM.jvm.start(*options, ignoreUnrecognized=True)
-    JVM.jenv = jenv
+    jvm = JVM(path.encode("utf-8").decode("utf-8"))
+    jvm.start(*options, ignoreUnrecognized=True)
 
     return JVM.jenv is not None
 

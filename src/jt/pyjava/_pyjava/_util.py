@@ -22,7 +22,7 @@ def from_utf8(utf8):
     # Equivalent of: string = new String(utf8, "UTF-8");
 
     from ctypes import c_char_p
-    from ...jvm import jni
+    from ...    import jni
     from ...jvm.jframe import JFrame
     from ._jvm  import JVM
 

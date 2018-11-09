@@ -7,13 +7,13 @@ the pyjava Python interface, the package is covered by tests.
 
 from __future__ import absolute_import
 
-import sys
-if sys.version_info.major >= 3: long = int
+import sys                                  # <AK> add
+if sys.version_info.major >= 3: long = int  #   -||-
 import math
 
-import jt.pyjava._pyjava as _pyjava
+import _pyjava
 
-from .base import PyjavaTestCase, unittest
+from .base import PyjavaTestCase, unittest  # <AK> fix: was: from base
 
 
 class Test_getclass(PyjavaTestCase):
@@ -105,7 +105,7 @@ class Test_classobject(PyjavaTestCase):
         self.assertFalse(obj2 == obj1)
         self.assertTrue(obj3 == obj2)
         self.assertFalse(obj1 == obj3)
-        #<AK> additional
+        # <AK> additional
         # == ... and inequality
         self.assertFalse(obj1 != obj1)
         self.assertFalse(obj2 != obj2)
@@ -116,17 +116,17 @@ class Test_classobject(PyjavaTestCase):
         self.assertTrue(obj2 != obj1)
         self.assertFalse(obj3 != obj2)
         self.assertTrue(obj1 != obj3)
-        #</AK>
+        # </AK>
 
         String = _pyjava.getclass('java/lang/String')
         # These shouldn't raise
         self.assertFalse(obj1 == String)
         self.assertFalse(obj2 == String)
-        #<AK> additional
+        # <AK> additional
         # == ... and inequality
         self.assertTrue(obj1 != String)
         self.assertTrue(obj2 != String)
-        #</AK>
+        # </AK>
 
 
 class Test_get_method(PyjavaTestCase):
@@ -175,7 +175,7 @@ class Test_call(PyjavaTestCase):
         """
         Math = _pyjava.getclass('java/lang/Math')
         sin = Math.sin
-        self.assertAlmostEqual(sin(math.pi / 2.0), 1.0)  #<AK> fix, was: math.pi / 2
+        self.assertAlmostEqual(sin(math.pi / 2), 1.0)
 
     def test_badoverload(self):
         """Calls an existing method but with wrong argument types.
@@ -281,8 +281,8 @@ class Test_set_field(PyjavaTestCase):
             sf.d = 1
 
     def test_wrongvalue(self):
-        #<AK> additional
-        from jt.pyjava.__config__ import WITH_VALID
+        # <AK> additional
+        from jt.pyjava.__config__ import config
         SetField = _pyjava.getclass('pyjavatest/test_fields/SetField')
         sf = SetField()
         MIN_INT, MAX_INT = -2**31, 2**31-1
@@ -295,7 +295,7 @@ class Test_set_field(PyjavaTestCase):
         sf.c = MIN_INT
         self.assertEqual(sf.c, MIN_INT)
         # jt extension: WITH_VALID
-        if WITH_VALID:
+        if config.getboolean("WITH_VALID", False):
             RaisedError = ValueError if sys.version_info.major >= 3 else TypeError
             with self.assertRaises(RaisedError):
                 SetField.a = 2**31
@@ -379,7 +379,7 @@ class Test_conversions(PyjavaTestCase):
 
     def test_c_lS(self):
         m = self._jcl.c_lS
-        self.assertEqual(m(self._jo, long(-70458), u'R\xE9mi'), u'\u05D0')
+        self.assertEqual(m(self._jo, long(-70458), u'R\xE9mi'), u'\u05D0')  # <AK> fix: was: -70458L
 
     def test_d_iSb(self):
         m = self._jcl.d_iSb
@@ -399,7 +399,7 @@ class Test_conversions(PyjavaTestCase):
         self.assertIsNotNone(o)
         self.assertTrue(isinstance(o, _pyjava.JavaInstance))
         m = self._jcl.B_loi
-        self.assertEqual(m(self._jo, long(142005), o, -100), 0x20)
+        self.assertEqual(m(self._jo, long(142005), o, -100), 0x20)  # <AK> fix: was: 142005L
 
     def test_s_So(self):
         g = self._jcl.o_b

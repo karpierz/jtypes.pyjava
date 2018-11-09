@@ -1,18 +1,14 @@
 jtypes.pyjava documentation
 ===========================
 
-.. include:: README.rst
-
-Parts of the documentation
-==========================
-
 .. toctree::
    :maxdepth: 2
+   :caption: Contents:
 
-   install.rst
-   userguide.rst
-
-   CHANGES.rst
+   README
+   install
+   userguide
+   CHANGES
 
 Indices and tables
 ==================

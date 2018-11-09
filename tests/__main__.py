@@ -7,12 +7,13 @@ from __future__ import absolute_import, print_function
 import unittest
 import sys
 import os
+import importlib
 import logging
 
 from . import test_dir
 
 
-def test_suite(names=None, omit=("runtests", "base")):
+def test_suite(names=None, omit=("run", "base")):
 
     from . import __name__ as pkg_name
     from . import __path__ as pkg_path
@@ -27,6 +28,12 @@ def test_suite(names=None, omit=("runtests", "base")):
 
 
 def main():
+
+    sys.modules["pyjava"]          = importlib.import_module("jt.pyjava")
+    sys.modules["pyjava.find_dll"] = importlib.import_module("jt.pyjava.find_dll")
+    sys.modules["_pyjava"]         = importlib.import_module("jt.pyjava._pyjava")
+
+    print("Running testsuite", "\n", file=sys.stderr)
 
     try:
         tests = test_suite(sys.argv[1:] or None)
