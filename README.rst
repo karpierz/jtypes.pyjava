@@ -10,7 +10,7 @@ Overview
 
   | **jtypes.pyjava** is a bridge allowing to use Java classes in regular Python code.
 
-  `PyPI record <https://pypi.python.org/pypi/jtypes.pyjava>`__.
+  `PyPI record`_.
 
   | **jtypes.pyjava** is a lightweight Python package, based on the *ctypes* or *cffi* library.
   | It is an almost fully compliant implementation of Remi Rampin's **PyJava** package
@@ -20,7 +20,7 @@ Overview
 About PyJava:
 -------------
 
-Borrowed from the `original website <https://github.com/remram44/pyjava/blob/master/README.md>`__:
+Borrowed from the `original website`_:
 
   | **PyJava** is a bridge allowing to use Java classes in regular Python code.
   | It is similar to `JPype <http://jpype.sourceforge.net/>`__.
@@ -72,11 +72,11 @@ To ensure everything is running correctly you can run the tests using::
 Development
 ===========
 
-Visit `development page <https://github.com/karpierz/jtypes.pyjava>`__
+Visit `development page`_
 
 Installation from sources:
 
-Clone the `sources <https://github.com/karpierz/jtypes.pyjava>`__ and run::
+Clone the `sources`_ and run::
 
     python -m pip install ./jtypes.pyjava
 
@@ -103,3 +103,8 @@ Authors
 =======
 
 * Adam Karpierz <adam@karpierz.net>
+
+.. _PyPI record: https://pypi.python.org/pypi/jtypes.pyjava
+.. _original website: https://github.com/remram44/pyjava/blob/master/README.md
+.. _development page: https://github.com/karpierz/jtypes.pyjava
+.. _sources: https://github.com/karpierz/jtypes.pyjava

@@ -4,13 +4,16 @@ include LICENSE
 include tox.ini
 
 graft src
-#prune src/jt/pyjava/_pyjava/_typehandler
-#include src/jt/pyjava/_pyjava/_typehandler/__init__.py
+prune src/jt/pyjava/_pyjava/_typehandler
+include src/jt/pyjava/_pyjava/_typehandler/__init__.py
 
 graft docs
 prune docs/_build
+recursive-exclude docs *.org *.old *.new
 
 graft tests
+exclude tests/_info_.txt
+recursive-exclude tests *.org *.old *.new
 
 global-exclude .build .build.*
 global-exclude *.py[co] __pycache__
