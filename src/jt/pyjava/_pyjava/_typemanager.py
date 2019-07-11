@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2018 Adam Karpierz
+# Copyright (c) 2015-2019 Adam Karpierz
 # Licensed under the MIT License
 # http://opensource.org/licenses/MIT
 
@@ -12,14 +12,13 @@ from ._typehandler import *  # noqa
 @public
 class TypeManager(object):
 
-    __slots__ = ('_state', '_object_handlers', '_array_handlers')
+    __slots__ = ('_state', '_handlers')
 
     def __init__(self, state=None):
 
         super(TypeManager, self).__init__()
-        self._state           = state
-        self._object_handlers = {}
-        self._array_handlers  = {}
+        self._state    = state
+        self._handlers = {}
 
     def start(self):
 
@@ -35,23 +34,18 @@ class TypeManager(object):
 
     def stop(self):
 
-        self._object_handlers = {}
-        self._array_handlers  = {}
+        self._handlers = {}
 
     def _register_handler(self, hcls):
 
         thandler = hcls(self._state)
-        self._object_handlers[thandler._jclass] = thandler
+        self._handlers[thandler._jclass] = thandler
         return thandler
 
     def get_handler(self, jclass):
 
-        if jclass.isArray():
-            thandler = self._array_handlers.get(jclass)
-            if thandler is None:
-                self._array_handlers[jclass] = thandler = ArrayHandler(self._state, jclass)
-        else:
-            thandler = self._object_handlers.get(jclass)
-            if thandler is None:
-                self._object_handlers[jclass] = thandler = ObjectHandler(self._state, jclass)
+        thandler = self._handlers.get(jclass)
+        if thandler is None:
+            Handler = ArrayHandler if jclass.isArray() else ObjectHandler
+            self._handlers[jclass] = thandler = Handler(self._state, jclass)
         return thandler

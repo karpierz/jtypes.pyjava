@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2018 Adam Karpierz
+# Copyright (c) 2015-2019 Adam Karpierz
 # Licensed under the MIT License
 # http://opensource.org/licenses/MIT
 
@@ -31,11 +31,9 @@ def from_utf8(utf8):
         jutf8 = jenv.NewStringUTF(b"UTF-8")
         jenv.SetByteArrayRegion(jbarr, 0, len(utf8),
                                 jni.cast(c_char_p(utf8), jni.POINTER(jni.jbyte)))
-        String_Constructor_bytes = jenv.GetMethodID(jvm.String.Class,
-                                                    b"<init>", b"([BLjava/lang/String;)V")
         jargs = jni.new_array(jni.jvalue, 2)
         jargs[0].l = jbarr
         jargs[1].l = jutf8
         jstr = jni.cast(jenv.NewObject(jvm.String.Class,
-                                       String_Constructor_bytes, jargs), jni.jstring)
+                                       jvm.String.ConstructorFromBytes, jargs), jni.jstring)
         return JVM.jvm.JObject(jenv, jstr)

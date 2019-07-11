@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2018 Adam Karpierz
+# Copyright (c) 2015-2019 Adam Karpierz
 # Licensed under the MIT License
 # http://opensource.org/licenses/MIT
 
@@ -13,7 +13,7 @@ from ...jvm.lib import public
 from ...jvm.lib import cached
 
 from ._constants  import EMatchType
-from ._jfield     import FIELD_STATIC, FIELD_NONSTATIC, FIELD_BOTH
+from ._jfield     import FIELD_STATIC, FIELD_NONSTATIC, FIELD_BOTH, FIELD_CONSTRUCTOR
 from ._exceptions import NoMatchingOverload
 
 
@@ -22,6 +22,8 @@ class JavaCallable(abcoll.Callable):
     # Equivalent of: jt.jtypes.JavaCallable
 
     def _match_overload(self, what, overloads, *args):
+
+        msg = "constructors" if what & FIELD_CONSTRUCTOR else "methods"
 
         best_ovrs  = []
         nonmatches = 0
@@ -34,16 +36,27 @@ class JavaCallable(abcoll.Callable):
                 (not ovr._is_static and not (what & FIELD_NONSTATIC))):
                 continue
 
-            match_level = ovr.match_args(args)
+            match_level = ovr.match_args(*args)
             if match_level == EMatchType.NONE:
                 nonmatches += 1
             else:
                 best_ovrs.append(ovr)
 
         if len(best_ovrs) == 0:
-            return None, nonmatches
+            raise NoMatchingOverload("{} {} with {} parameters (no match)".format(
+                                     nonmatches, msg, len(args)))
 
-        return best_ovrs[0] if len(best_ovrs) == 1 else best_ovrs, nonmatches
+        if len(best_ovrs) > 1:
+            # Several methods matched the given arguments.
+            # We'll use the first method we found.
+            # The Java compiler shouldn't let this happen... may be a bug
+            # in the convert module?
+            warnings.warn("Multiple Java {} matching Python parameters".format(msg),
+                          RuntimeWarning)
+            raise Exception("RuntimeWarning:" + " " +
+                            "Multiple Java {} matching Python parameters".format(msg))
+
+        return best_ovrs[0], nonmatches
 
 
 @public
@@ -65,22 +78,8 @@ class Constructor(JavaCallable):
         if not self.overloads:
             raise NoMatchingOverload("no visible constructor")
 
-        best_ovr, nonmatches = self._match_overload(FIELD_STATIC, self.overloads, *args)
-
-        if best_ovr is None:
-            raise NoMatchingOverload("{} constructors with {} parameters (no match)".format(
-                                     nonmatches, len(args)))
-
-        if isinstance(best_ovr, list):
-            # Several constructors matched the given arguments.
-            # We'll use the first constructor we found.
-            # The Java compiler shouldn't let this happen... may be a bug
-            # in the convert module?
-            best_ovr = best_ovr[0]
-            warnings.warn("Multiple Java constructors matching Python parameters", RuntimeWarning)
-            raise Exception("RuntimeWarning:" + " " +
-                            "Multiple Java constructors matching Python parameters")
-
+        best_ovr, nonmatches = self._match_overload(FIELD_STATIC | FIELD_CONSTRUCTOR,
+                                                    self.overloads, *args)
         instance = JavaInstance()
         instance._jobject = best_ovr.call_constructor(*args)
         return instance
@@ -95,28 +94,13 @@ class _Method(JavaCallable):
         self.overloads = ()
         return self
 
-    @annotate(object, cls='jt.jvm.JClass', args=Tuple, what=int)
-    def _call(self, cls, args, what):
+    @annotate(object, jclass='jt.jvm.JClass', args=Tuple, what=int)
+    def _call(self, jclass, args, what):
 
         best_ovr, nonmatches = self._match_overload(what, self.overloads, *args)
-
-        if best_ovr is None:
-            raise NoMatchingOverload("{} methods with {} parameters (no match)".format(
-                                     nonmatches, len(args)))
-
-        if isinstance(best_ovr, list):
-            # Several methods matched the given arguments.
-            # We'll use the first method we found.
-            # The Java compiler shouldn't let this happen... may be a bug
-            # in the convert module?
-            best_ovr = best_ovr[0]
-            warnings.warn("Multiple Java methods matching Python parameters", RuntimeWarning)
-            raise Exception("RuntimeWarning:" + " " +
-                            "Multiple Java methods matching Python parameters")
-
         try:
             if best_ovr._is_static:
-                return best_ovr.call_static(cls, *args)
+                return best_ovr.call_static(jclass, *args)
             else:
                 pdescr   = best_ovr._params_info[0]
                 thandler = pdescr.thandler
@@ -151,21 +135,6 @@ class UnboundMethod(_Method):
     def __call__(self, *args, **kwargs):
 
         best_ovr, nonmatches = self._match_overload(FIELD_BOTH, self.overloads, *args)
-
-        if best_ovr is None:
-            raise NoMatchingOverload("{} methods with {} parameters (no match)".format(
-                                     nonmatches, len(args)))
-
-        if isinstance(best_ovr, list):
-            # Several methods matched the given arguments.
-            # We'll use the first method we found.
-            # The Java compiler shouldn't let this happen... may be a bug
-            # in the convert module?
-            best_ovr = best_ovr[0]
-            warnings.warn("Multiple Java methods matching Python parameters", RuntimeWarning)
-            raise Exception("RuntimeWarning:" + " " +
-                            "Multiple Java methods matching Python parameters")
-
         try:
             if best_ovr._is_static:
                 return best_ovr.call_static(self._jclass, *args)
@@ -211,21 +180,6 @@ class BoundMethod(_Method):
         bound_args = (wjinstance,) + args
 
         best_ovr, nonmatches = self._match_overload(FIELD_NONSTATIC, self.overloads, *bound_args)
-
-        if best_ovr is None:
-            raise NoMatchingOverload("{} methods with {} parameters (no match)".format(
-                                     nonmatches, len(bound_args)))
-
-        if isinstance(best_ovr, list):
-            # Several methods matched the given arguments.
-            # We'll use the first method we found.
-            # The Java compiler shouldn't let this happen... may be a bug
-            # in the convert module?
-            best_ovr = best_ovr[0]
-            warnings.warn("Multiple Java methods matching Python parameters", RuntimeWarning)
-            raise Exception("RuntimeWarning:" + " " +
-                            "Multiple Java methods matching Python parameters")
-
         try:
             pdescr   = best_ovr._params_info[0]
             thandler = pdescr.thandler
@@ -262,7 +216,8 @@ class ClassMethod(_Method):
 
         from ._javawrapper import wrap_class
 
-        jclass = self._jclass.jvm.JClass(None, self._jclass.jvm._jvm.Class.Class, borrowed=True)
+        jvm = self._jclass.jvm
+        jclass = jvm.JClass(None, jvm._jvm.Class.Class, own=False)
 
         # Attempts bound method call
 
@@ -285,7 +240,6 @@ class JavaMethodOverload(object):
         __slots__ = ('thandler', 'is_mutable', 'is_output')
 
         def __init__(self, thandler):
-
             self.thandler   = thandler
             self.is_mutable = False
             self.is_output  = False
@@ -295,7 +249,6 @@ class JavaMethodOverload(object):
         __slots__ = ('thandler',)
 
         def __init__(self, thandler):
-
             self.thandler = thandler
 
     def __new__(cls, overload):
@@ -330,7 +283,7 @@ class JavaMethodOverload(object):
         else:
             self._return_info = None
 
-    def match_args(self, args):
+    def match_args(self, *args):
 
         self.__init()
 
@@ -365,10 +318,10 @@ class JavaMethodOverload(object):
         self.__close_arguments(jargs, args)
         return result
 
-    def call_instance(self, this, *args):
+    def call_instance(self, jthis, *args):
 
         jargs  = self.__make_arguments(args)
-        result = self._return_info.thandler.callInstance(self.__jmethod, this, jargs)
+        result = self._return_info.thandler.callInstance(self.__jmethod, jthis, jargs)
         self.__close_arguments(jargs, args)
         return result
 

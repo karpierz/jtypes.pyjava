@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2018 Adam Karpierz
+# Copyright (c) 2015-2019 Adam Karpierz
 # Licensed under the MIT License
 # http://opensource.org/licenses/MIT
 
@@ -18,9 +18,9 @@ class ClassNotFound(Error):
 @public
 class NoMatchingOverload(Error, TypeError):
 
-    """ """
+    __doc__ = TypeError.__doc__
 
 @public
 class FieldTypeError(Error, TypeError, AttributeError):
 
-    """ """
+    __doc__ = TypeError.__doc__

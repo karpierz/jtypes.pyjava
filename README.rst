@@ -51,10 +51,10 @@ Installation
 
 Prerequisites:
 
-+ Python 2.7 or higher or 3.4 or higher
++ Python 2.7 or Python 3.4 or later
 
   * http://www.python.org/
-  * 2.7 and 3.6 are primary test environments.
+  * 2.7 and 3.7 are primary test environments.
 
 + pip and setuptools
 
@@ -93,7 +93,7 @@ Prerequisites:
 License
 =======
 
-  | Copyright (c) 2015-2018 Adam Karpierz
+  | Copyright (c) 2015-2019 Adam Karpierz
   |
   | Licensed under the MIT License
   | http://opensource.org/licenses/MIT

@@ -35,6 +35,7 @@ class Test_getclass(PyjavaTestCase):
         self.assertIsNotNone(String)
         self.assertEqual(String.getName(), u'java.lang.String')
         self.assertIsInstance(String, _pyjava.JavaClass)
+        self.assertEqual(String, String)  # <AK>: added for coverage
 
     def test_Reader(self):
         """Wraps a well-known class.
@@ -43,6 +44,7 @@ class Test_getclass(PyjavaTestCase):
         self.assertIsNotNone(Reader)
         self.assertEqual(Reader.getName(), u'java.io.Reader')
         self.assertIsInstance(Reader, _pyjava.JavaClass)
+        self.assertEqual(Reader, Reader)  # <AK>: added for coverage
 
 
 class Test_classobject(PyjavaTestCase):

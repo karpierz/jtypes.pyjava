@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2018 Adam Karpierz
+# Copyright (c) 2015-2019 Adam Karpierz
 # Licensed under the MIT License
 # http://opensource.org/licenses/MIT
 
@@ -41,16 +41,12 @@ class JavaClass(object):
 
     def __subclasscheck__(self, subclass):
 
-        """__subclasscheck__(subclass) -> bool"""
-
         if not isinstance(subclass, JavaClass):
             return False
 
         return self._jclass.isAssignableFrom(subclass._jclass)
 
     def __instancecheck__(self, instance):
-
-        """__instancecheck__(instance) -> bool"""
 
         if not isinstance(instance, JavaInstance):
             return False
@@ -63,8 +59,8 @@ class JavaClass(object):
 
     def __getattr__(self, name):
 
-        jclass = self._jclass.jvm.JClass(None, self._jclass.jvm._jvm.Class.Class, borrowed=True)
-        is_class_class = self._jclass.asObject(borrowed=True) == jclass.asObject(borrowed=True)
+        jclass = self._jclass.jvm.JClass(None, self._jclass.jvm._jvm.Class.Class, own=False)
+        is_class_class = self._jclass.asObject(own=False) == jclass.asObject(own=False)
 
         # First, try to find a method with that name, in that class.
         # If at least one such method exists, we return an UnboundMethod.
@@ -158,8 +154,8 @@ class JavaClass(object):
         if not isinstance(other, (JavaClass, JavaInstance)):
             return False
 
-        self_jobject  = self._jclass.asObject(borrowed=True)
-        other_jobject = (other._jclass.asObject(borrowed=True)
+        self_jobject  = self._jclass.asObject(own=False)
+        other_jobject = (other._jclass.asObject(own=False)
                          if isinstance(other, JavaClass) else other._jobject)
 
         return self_jobject == other_jobject
@@ -302,7 +298,7 @@ class JavaInstance(object):
             return False
 
         self_jobject  = self._jobject
-        other_jobject = (other._jclass.asObject(borrowed=True)
+        other_jobject = (other._jclass.asObject(own=False)
                          if isinstance(other, JavaClass) else other._jobject)
 
         return self_jobject == other_jobject

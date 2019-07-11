@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2018 Adam Karpierz
+# Copyright (c) 2015-2019 Adam Karpierz
 # Licensed under the MIT License
 # http://opensource.org/licenses/MIT
 
@@ -34,7 +34,7 @@ def wrap_instance(jobject):
 
     jclass = jobject.getClass()
 
-    if jclass == jclass.jvm.JClass(None, jclass.jvm._jvm.Class.Class, borrowed=True):
+    if jclass == jclass.jvm.JClass(None, jclass.jvm._jvm.Class.Class, own=False):
         jclass = jobject.asClass()
         return wrap_class(jclass)
     else:
@@ -60,7 +60,7 @@ def unwrap_instance(pyobject, with_javaclass=False):
     elif isinstance(pyobject, JavaClass):
         jclass  = pyobject._jclass
         jobject = jclass.asObject()
-        jclass  = (jclass.jvm.JClass(None, jclass.jvm._jvm.Class.Class, borrowed=True)
+        jclass  = (jclass.jvm.JClass(None, jclass.jvm._jvm.Class.Class, own=False)
                    if with_javaclass else None)
     else:
         jobject = None
