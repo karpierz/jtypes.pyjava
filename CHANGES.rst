@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.1.5a10 (2019-07-10)
+---------------------
+- Last release for Python2.
+
 0.1.5a9 (2018-11-08)
 --------------------
 - Update of the required setuptools version.
