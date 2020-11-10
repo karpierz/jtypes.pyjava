@@ -1,5 +1,3 @@
-**Currently only as placeholder (because a base package jtypes.jvm is still in development)**
-
 jtypes.pyjava
 =============
 
@@ -8,38 +6,40 @@ A Python to Java bridge.
 Overview
 ========
 
-  | **jtypes.pyjava** is a bridge allowing to use Java classes in regular Python code.
+| |package_bold| is a bridge allowing to use Java classes in regular Python code.
 
-  `PyPI record`_.
+`PyPI record`_.
 
-  | **jtypes.pyjava** is a lightweight Python package, based on the *ctypes* or *cffi* library.
-  | It is an almost fully compliant implementation of Remi Rampin's **PyJava** package
-    by reimplementing whole its functionality in a clean Python instead of C/C++.
+`Documentation`_.
 
+| |package_bold| is an almost fully compliant implementation of Remi Rampin's
+  **PyJava** package by reimplementing whole its functionality in a clean Python
+  instead of C.
+| |package_bold| package is closely based on the `jvm`_ and `jni`_ Python packages.
 
 About PyJava:
 -------------
 
 Borrowed from the `original website`_:
 
-  | **PyJava** is a bridge allowing to use Java classes in regular Python code.
-  | It is similar to `JPype <http://jpype.sourceforge.net/>`__.
+| **PyJava** is a bridge allowing to use Java classes in regular Python code.
+| It is similar to `JPype <http://jpype.sourceforge.net/>`__.
 
-  It is a C extension that uses JNI to access a Java virtual machine,
-  meaning that it can be used anywhere Python is available. It is not
-  a different interpreter like `Jython <http://jython.org/>`__ and does
-  not require anything, other than a JRE. The JVM dynamic library is load
-  dynamically through pyjava.start() (some basic logic for locating this
-  library on major platforms will be provided).
+It is a C extension that uses JNI to access a Java virtual machine,
+meaning that it can be used anywhere Python is available. It is not
+a different interpreter like `Jython <https://www.jython.org/>`__ and does
+not require anything, other than a JRE. The JVM dynamic library is load
+dynamically through pyjava.start() (some basic logic for locating this
+library on major platforms will be provided).
 
-  The integration with Java code is meant to be as complete as possible,
-  allowing to use Java and Python objects seemlessly and converting objects
-  back and forth when Java code is called. Furthermore, subclassing Java
-  classes or interfaces in Python code to allow callback from Java is planned
-  for the 0.2 version.
+The integration with Java code is meant to be as complete as possible,
+allowing to use Java and Python objects seemlessly and converting objects
+back and forth when Java code is called. Furthermore, subclassing Java
+classes or interfaces in Python code to allow callback from Java is planned
+for the 0.2 version.
 
-  Please note that this extension is still at a very early stage of
-  development and probably shouldn't be used for anything.
+Please note that this extension is still at a very early stage of
+development and probably shouldn't be used for anything.
 
 Requirements
 ============
@@ -51,52 +51,65 @@ Installation
 
 Prerequisites:
 
-+ Python 2.7 or Python 3.4 or later
++ Python 3.6 or higher
 
-  * http://www.python.org/
-  * 2.7 and 3.7 are primary test environments.
+  * https://www.python.org/
+  * 3.7 with Java 8 is a primary test environment.
 
 + pip and setuptools
 
-  * http://pypi.python.org/pypi/pip
-  * http://pypi.python.org/pypi/setuptools
+  * https://pypi.org/project/pip/
+  * https://pypi.org/project/setuptools/
 
-To install run::
+To install run:
 
-    python -m pip install --upgrade jtypes.pyjava
+  .. parsed-literal::
 
-To ensure everything is running correctly you can run the tests using::
+    python -m pip install --upgrade |package|
+
+To ensure everything is running correctly you can run the tests using:
+
+  .. parsed-literal::
 
     python -m jt.pyjava.tests
 
 Development
 ===========
 
-Visit `development page`_
-
-Installation from sources:
-
-Clone the `sources`_ and run::
-
-    python -m pip install ./jtypes.pyjava
-
-or on development mode::
-
-    python -m pip install --editable ./jtypes.pyjava
-
 Prerequisites:
 
 + Development is strictly based on *tox*. To install it run::
 
-    python -m pip install tox
+    python -m pip install --upgrade tox
+
+Visit `development page`_.
+
+Installation from sources:
+
+clone the sources:
+
+  .. parsed-literal::
+
+    git clone |respository| |package|
+
+and run:
+
+  .. parsed-literal::
+
+    python -m pip install ./|package|
+
+or on development mode:
+
+  .. parsed-literal::
+
+    python -m pip install --editable ./|package|
 
 License
 =======
 
-  | Copyright (c) 2015-2019 Adam Karpierz
-  |
+  | Copyright (c) 2015-2020 Adam Karpierz
   | Licensed under the MIT License
-  | http://opensource.org/licenses/MIT
+  | https://opensource.org/licenses/MIT
   | Please refer to the accompanying LICENSE file.
 
 Authors
@@ -104,7 +117,12 @@ Authors
 
 * Adam Karpierz <adam@karpierz.net>
 
-.. _PyPI record: https://pypi.python.org/pypi/jtypes.pyjava
-.. _original website: https://github.com/remram44/pyjava/blob/master/README.md
+.. |package| replace:: jtypes.pyjava
+.. |package_bold| replace:: **jtypes.pyjava**
+.. |respository| replace:: https://github.com/karpierz/jtypes.pyjava.git
 .. _development page: https://github.com/karpierz/jtypes.pyjava
-.. _sources: https://github.com/karpierz/jtypes.pyjava
+.. _PyPI record: https://pypi.org/project/jtypes.pyjava/
+.. _Documentation: https://jtypes.pyjava.readthedocs.io/
+.. _jvm: https://pypi.org/project/jvm/
+.. _jni: https://pypi.org/project/jni/
+.. _original website: https://github.com/remram44/pyjava/blob/master/README.md

@@ -1,33 +1,28 @@
-# Copyright (c) 2015-2019 Adam Karpierz
+# Copyright (c) 2015-2020 Adam Karpierz
 # Licensed under the MIT License
-# http://opensource.org/licenses/MIT
-
-from __future__ import absolute_import
+# https://opensource.org/licenses/MIT
 
 import sys
 import os
 from os import path
 import re
-if sys.version_info.major >= 3:
-    import winreg
-else:
-    import _winreg as winreg
+import winreg
 
-from ...jvm.platform import _jvmfinder
+from jvm.lib import public
+from jvm.platform import _jvmfinder
 
 
+@public
 class JVMFinder(_jvmfinder.JVMFinder):
 
     def __init__(self, java_version=None):
-
-        super(JVMFinder, self).__init__(java_version)
+        super().__init__(java_version)
 
         self._methods = (
             self.find_dll,
         )
 
     def find_dll(self):
-
         """Attempts to find the location of a JRE."""
 
         java_home = os.getenv("JAVA_HOME")

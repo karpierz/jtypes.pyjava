@@ -1,18 +1,16 @@
-# Copyright (c) 2015-2019 Adam Karpierz
+# Copyright (c) 2015-2020 Adam Karpierz
 # Licensed under the MIT License
-# http://opensource.org/licenses/MIT
+# https://opensource.org/licenses/MIT
 
-from ....jvm.lib.compat import *
-from ....jvm.lib import annotate
-from ....jvm.lib import public
-from ....jvm.lib import cached
+from jvm.lib import public
+from jvm.lib import cached
+
+from jvm.jstring import JString
 
 from .._constants import EJavaType
-from .._constants import EMatchType
+from .._constants import EMatch
 from .._jvm       import JVM
-
-from ....jvm.jstring import JString
-from .._util         import from_utf8
+from .._util      import from_utf8
 
 from ._base_handler import _ObjectHandler
 
@@ -23,8 +21,7 @@ class ArrayHandler(_ObjectHandler):
     __slots__ = ('_component_thandler',)
 
     def __init__(self, state, jclass):
-
-        super(ArrayHandler, self).__init__(state, EJavaType.ARRAY, jclass)
+        super().__init__(state, EJavaType.ARRAY, jclass)
         self._component_thandler = None # state.type_manager.get_handler(jclass.getComponentType())
 
     @cached
@@ -34,9 +31,8 @@ class ArrayHandler(_ObjectHandler):
     componentHandler = property(lambda self: self._component_thandler)
 
     def match(self, val):
-
         if val is None:
-            return EMatchType.PERFECT
+            return EMatch.PERFECT
         else:
             # Checks that val is a JavaInstance and unwraps the jclass
             from .._javawrapper import unwrap_instance
@@ -44,17 +40,16 @@ class ArrayHandler(_ObjectHandler):
             if jobject is not None:
                 # Check that the passed object has a class that is subclass of the wanted class
                 if self._jclass.isAssignableFrom(jclass):
-                    return EMatchType.PERFECT
+                    return EMatch.PERFECT
             else:
                 # Special case: We can convert a unicode object to String
                 jt_jvm = self._jt_jvm
                 if (isinstance(val, str) and
                     self._jclass == jt_jvm.JClass(None, jt_jvm._jvm.String.Class, own=False)):
-                    return EMatchType.PERFECT
-        return EMatchType.NONE
+                    return EMatch.PERFECT
+        return EMatch.NONE
 
     def toJava(self, val):
-
         if val is None:
             return None
         else:
@@ -68,7 +63,6 @@ class ArrayHandler(_ObjectHandler):
                 return from_utf8(val.encode("utf-8"))
 
     def toPython(self, val):
-
         if val is None:
             return None
         else:
@@ -81,7 +75,6 @@ class ArrayHandler(_ObjectHandler):
             return pclass(aval)
 
     def getStatic(self, fld, cls):
-
         jobject = fld.getStaticObject(cls)
         if jobject is None:
             return None
@@ -96,7 +89,6 @@ class ArrayHandler(_ObjectHandler):
             return wrap_instance(jobject)
 
     def setStatic(self, fld, cls, val):
-
         if val is None:
             fld.setStaticObject(cls, None)
         else:
@@ -110,7 +102,6 @@ class ArrayHandler(_ObjectHandler):
                 fld.setStaticString(cls, val.encode("utf-8").decode("utf-8"))
 
     def getInstance(self, fld, this):
-
         jobject = fld.getObject(this)
         if jobject is None:
             return None
@@ -125,7 +116,6 @@ class ArrayHandler(_ObjectHandler):
             return wrap_instance(jobject)
 
     def setInstance(self, fld, this, val):
-
         if val is None:
             fld.setObject(this, None)
         else:
@@ -139,7 +129,6 @@ class ArrayHandler(_ObjectHandler):
                 fld.setString(this, val.encode("utf-8").decode("utf-8"))
 
     def setArgument(self, pdescr, args, pos, val):
-
         if val is None:
             args.setObject(pos, None)
         else:
@@ -153,7 +142,6 @@ class ArrayHandler(_ObjectHandler):
                 args.setString(pos, val.encode("utf-8").decode("utf-8"))
 
     def callStatic(self, meth, cls, args):
-
         jobject = meth.callStaticObject(cls, args)
         if jobject is None:
             return None
@@ -168,7 +156,6 @@ class ArrayHandler(_ObjectHandler):
             return wrap_instance(jobject)
 
     def callInstance(self, meth, this, args):
-
         jobject = meth.callInstanceObject(this, args)
         if jobject is None:
             return None

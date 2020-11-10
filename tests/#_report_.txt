@@ -1,0 +1,75 @@
+Running testsuite 
+
+Running tests with JVM DLL: C:\Program Files\Java\jre1.8.0_201\bin\server\jvm.dll
+test_from_utf8 (tests.test_basic.Test_basic) ... ok
+test_find_dll (tests.test_find_dll.Test_find_dll) ... ok
+test_staticfield (tests.test_internals.Test_accessfield)
+Requests a well-known static field. ... ok
+test_testclass (tests.test_internals.Test_accessfield) ... ok
+test_badoverload (tests.test_internals.Test_call)
+Calls an existing method but with wrong argument types. ... ok
+test_constructor (tests.test_internals.Test_call)
+Constructs a Java object from a constructor. ... ok
+test_method (tests.test_internals.Test_call)
+Calls a well-known method on a wrapper returned by a static method. ... ok
+test_staticmethod (tests.test_internals.Test_call)
+Calls a well-known static method. ... ok
+test_is_same_object (tests.test_internals.Test_classobject)
+Tests for equality of references. ... ok
+test_isinstance (tests.test_internals.Test_classobject)
+Requests well-known classes and tests isinstance(). ... skipped 'JavaClass is not a metaclass right now'
+test_issubclass (tests.test_internals.Test_classobject)
+Requests well-known classes and tests issubclass(). ... skipped 'JavaClass is not a metaclass right now'
+test_subclass (tests.test_internals.Test_classobject)
+Tests subclassing a Java class. ... ok
+test_B_loi (tests.test_internals.Test_conversions) ... ok
+test_C_ (tests.test_internals.Test_conversions) ... ok
+test_S_ (tests.test_internals.Test_conversions) ... ok
+test_b_Bs (tests.test_internals.Test_conversions) ... ok
+test_c_lS (tests.test_internals.Test_conversions) ... ok
+test_d_iSb (tests.test_internals.Test_conversions) ... ok
+test_f_ (tests.test_internals.Test_conversions) ... ok
+test_i_fc (tests.test_internals.Test_conversions) ... ok
+test_o_S (tests.test_internals.Test_conversions) ... ok
+test_s_So (tests.test_internals.Test_conversions) ... ok
+test_v_ii (tests.test_internals.Test_conversions) ... ok
+test_v_o (tests.test_internals.Test_conversions) ... ok
+test_field (tests.test_internals.Test_get_field)
+Requests a well-known field. ... ok
+test_nonexistent_class (tests.test_internals.Test_get_field)
+Requests an unknown field/method on a class. ... ok
+test_nonexistent_instance (tests.test_internals.Test_get_field)
+Requests an unknown field/method on an instance. ... ok
+test_staticfield (tests.test_internals.Test_get_field)
+Requests a well-known static field. ... ok
+test_method (tests.test_internals.Test_get_method)
+Requests a well-known method. ... ok
+test_staticmethod (tests.test_internals.Test_get_method)
+Requests a well-known static method. ... ok
+test_Reader (tests.test_internals.Test_getclass)
+Wraps a well-known class. ... ok
+test_String (tests.test_internals.Test_getclass)
+Wraps a language class. ... ok
+test_nonexistent (tests.test_internals.Test_getclass)
+Tests that ClassNotFound is raised when getting an unknown class. ... ok
+test_forname (tests.test_internals.Test_reflection)
+Uses Class.forName(). ... ok
+test_nonstatic_method (tests.test_internals.Test_reflection)
+Access a non-static Class method. ... ok
+test_field (tests.test_internals.Test_set_field)
+Sets a well-known field. ... ok
+test_nonexistent_class (tests.test_internals.Test_set_field)
+Sets an unknown field on a class. ... ok
+test_nonexistent_instance (tests.test_internals.Test_set_field)
+Sets an unknown field on an instance. ... ok
+test_staticfield (tests.test_internals.Test_set_field)
+Sets a static field. ... ok
+test_wrongtype (tests.test_internals.Test_set_field)
+Assigns values of different types to fields. ... ok
+test_wrongvalue (tests.test_internals.Test_set_field) ... ok
+
+----------------------------------------------------------------------
+Ran 41 tests in 0.472s
+
+OK (skipped=2)
+svn: 11997M

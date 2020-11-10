@@ -1,12 +1,10 @@
-# Copyright (c) 2015-2019 Adam Karpierz
+# Copyright (c) 2015-2020 Adam Karpierz
 # Licensed under the MIT License
-# http://opensource.org/licenses/MIT
+# https://opensource.org/licenses/MIT
 
-from ...jvm.lib.compat import *
-from ...jvm.lib import annotate
-from ...jvm.lib import public
+from jvm.lib import public
 
-from ._constants  import EMatchType
+from ._constants  import EMatch
 from ._constants  import EJavaModifiers
 from ._jfield     import FIELD_STATIC, FIELD_NONSTATIC, FIELD_BOTH
 from ._jmethod    import UnboundMethod, BoundMethod, ClassMethod, JavaMethodOverload
@@ -14,8 +12,7 @@ from ._exceptions import FieldTypeError
 
 
 @public
-class JavaClass(object):
-
+class JavaClass:
     """Java class wrapper"""
 
     # "pyjava.JavaClass" # tp_name
@@ -28,11 +25,9 @@ class JavaClass(object):
     # or accessed for either static fields or unbound methods (static or not).
 
     def __new__(cls, *args, **kwargs):
-
         if len(args) != 0:
             raise NotImplementedError("Subclassing Java classes is not supported")
-
-        self = super(JavaClass, cls).__new__(cls)
+        self = super().__new__(cls)
         self._jclass     = None
         self.constructor = None
         return self
@@ -40,21 +35,16 @@ class JavaClass(object):
     __hash__ = None
 
     def __subclasscheck__(self, subclass):
-
         if not isinstance(subclass, JavaClass):
             return False
-
         return self._jclass.isAssignableFrom(subclass._jclass)
 
     def __instancecheck__(self, instance):
-
         if not isinstance(instance, JavaInstance):
             return False
-
         return self._jclass.isAssignableFrom(instance._jobject.getClass())
 
     def __call__(self, *args, **kwargs):
-
         return self.constructor(*args)
 
     def __getattr__(self, name):
@@ -77,10 +67,10 @@ class JavaClass(object):
         try:
             try:
                 jfield = self._jclass.getField(name.encode("utf-8").decode("utf-8"))
-            except:
-                raise AttributeError("no field with that name")
+            except Exception:
+                raise AttributeError("no field with that name") from None
 
-            mods = jfield.getModifiers()
+            mods = jfield.getModifiersSet()
             is_static = EJavaModifiers.STATIC in mods
             if not is_static:
                 raise AttributeError("field doesn't have the required type")
@@ -112,7 +102,7 @@ class JavaClass(object):
     def __setattr__(self, name, value):
 
         if name in ("_jclass", "constructor"):
-            super(JavaClass, self).__setattr__(name, value)
+            super().__setattr__(name, value)
             return
 
         from ..__config__ import config
@@ -120,17 +110,17 @@ class JavaClass(object):
         try:
             try:
                 jfield = self._jclass.getField(name.encode("utf-8").decode("utf-8"))
-            except:
-                raise AttributeError("no field with that name")
+            except Exception:
+                raise AttributeError("no field with that name") from None
 
-            mods = jfield.getModifiers()
+            mods = jfield.getModifiersSet()
             is_static = EJavaModifiers.STATIC in mods
             if not is_static:
                 raise AttributeError("field doesn't have the required type")
 
             thandler = jfield.jvm.type_manager.get_handler(jfield.getType())
 
-            if thandler.match(value) <= EMatchType.EXPLICIT:
+            if thandler.match(value) <= EMatch.EXPLICIT:
                 raise FieldTypeError("Java static attribute {} has incompatible type".format(
                                      name))
 
@@ -142,7 +132,7 @@ class JavaClass(object):
         except FieldTypeError:
             raise
         except AttributeError:
-            raise AttributeError("Java class has no static attribute {}".format(name))
+            raise AttributeError("Java class has no static attribute {}".format(name)) from None
 
     def __eq__(self, other):
 
@@ -161,7 +151,6 @@ class JavaClass(object):
         return self_jobject == other_jobject
 
     def __ne__(self, other):
-
         eq = self.__eq__(other)
         return NotImplemented if eq is NotImplemented else not eq
 
@@ -182,7 +171,7 @@ class JavaClass(object):
             if not constructors:
                 if jmeth.getName().encode("utf-8") != method_name.encode("utf-8"):
                     continue
-                mods = jmeth.getModifiers()
+                mods = jmeth.getModifiersSet()
                 is_static = EJavaModifiers.STATIC in mods
 
             if ((is_static     and not (what & FIELD_STATIC)) or
@@ -198,8 +187,7 @@ class JavaClass(object):
 
 
 @public
-class JavaInstance(object):
-
+class JavaInstance:
     """Java object wrapper"""
 
     # "pyjava.JavaInstance" # tp_name
@@ -210,8 +198,7 @@ class JavaInstance(object):
     # This is the wrapper for Java instance objects; it contains a jobject.
 
     def __new__(cls):
-
-        self = super(JavaInstance, cls).__new__(cls)
+        self = super().__new__(cls)
         self._jobject = None
         return self
 
@@ -236,10 +223,10 @@ class JavaInstance(object):
         try:
             try:
                 jfield = jclass.getField(name.encode("utf-8").decode("utf-8"))
-            except:
-                raise AttributeError("no field with that name")
+            except Exception:
+                raise AttributeError("no field with that name") from None
 
-            mods = jfield.getModifiers()
+            mods = jfield.getModifiersSet()
             is_static = EJavaModifiers.STATIC in mods
             if is_static:
                 raise AttributeError("field doesn't have the required type")
@@ -248,12 +235,12 @@ class JavaInstance(object):
             return thandler.getInstance(jfield, self._jobject)
 
         except AttributeError:
-            raise AttributeError("Java instance has no attribute {}".format(name))
+            raise AttributeError("Java instance has no attribute {}".format(name)) from None
 
     def __setattr__(self, name, value):
 
         if name in ("_jobject",):
-            super(JavaInstance, self).__setattr__(name, value)
+            super().__setattr__(name, value)
             return
 
         from ..__config__ import config
@@ -263,17 +250,17 @@ class JavaInstance(object):
         try:
             try:
                 jfield = jclass.getField(name.encode("utf-8").decode("utf-8"))
-            except:
-                raise AttributeError("no field with that name")
+            except Exception:
+                raise AttributeError("no field with that name") from None
 
-            mods = jfield.getModifiers()
+            mods = jfield.getModifiersSet()
             is_static = EJavaModifiers.STATIC in mods
             if is_static:
                 raise AttributeError("field doesn't have the required type")
 
             thandler = jfield.jvm.type_manager.get_handler(jfield.getType())
 
-            if thandler.match(value) <= EMatchType.EXPLICIT:
+            if thandler.match(value) <= EMatch.EXPLICIT:
                 raise FieldTypeError("Java nonstatic attribute {} has incompatible type".format(
                                      name))
 
@@ -285,7 +272,8 @@ class JavaInstance(object):
         except FieldTypeError:
             raise
         except AttributeError:
-            raise AttributeError("Java class has no nonstatic attribute {}".format(name))
+            raise AttributeError("Java class has no nonstatic attribute {}".format(
+                                 name)) from None
 
     def __eq__(self, other):
 
@@ -304,6 +292,5 @@ class JavaInstance(object):
         return self_jobject == other_jobject
 
     def __ne__(self, other):
-
         eq = self.__eq__(other)
         return NotImplemented if eq is NotImplemented else not eq

@@ -1,0 +1,36 @@
+#------------------------------------------------------------------------------#
+
+Ran 38 tests in 0.186s, FAILED (failures=1, errors=17, skipped=2), svn: 19779
+Ran 38 tests in 0.184s, FAILED (failures=1, errors=16, skipped=2), svn: 19782
+Ran 38 tests in 0.669s, FAILED (failures=1, errors=15, skipped=2), svn: 19826
+Ran 38 tests in 0.671s, FAILED (failures=2, errors=16, skipped=2), svn: 20248
+Ran 38 tests in 0.765s, FAILED (failures=2, errors=16, skipped=2), svn: 20254
+Ran 38 tests in 0.764s, FAILED (failures=2, errors=15, skipped=2), svn: 20256
+Ran 38 tests in 0.749s, FAILED (failures=2, errors=15, skipped=2), svn: 20264
+Ran 38 tests in 0.776s, FAILED (errors=16, skipped=2),             svn: 20380
+Ran 38 tests in 0.826s, FAILED (errors=16, skipped=2),             svn: 20416
+Ran 38 tests in 0.858s, FAILED (errors=16, skipped=2),             svn: 20417
+Ran 38 tests in 0.874s, FAILED (errors=16, skipped=2),             svn: 20472
+Ran 38 tests in 0.843s, FAILED (errors=16, skipped=2),             svn: 20628
+Ran 38 tests in 0.546s, FAILED (errors=16, skipped=2),             svn: 21248
+Ran 38 tests in 0.562s, OK (skipped=2),                            svn: 21524
+Ran 38 tests in 0.702s, OK (skipped=2),                            svn: 21566
+Ran 38 tests in 0.605s, OK (skipped=2),                            svn: 22100
+Ran 38 tests in 0.608s, OK (skipped=2),                            svn: 22407
+Ran 38 tests in 0.577s, OK (skipped=2),                            svn: 22432
+Ran 38 tests in 0.593s, OK (skipped=2),                            svn: 22865
+Ran 38 tests in 0.609s, OK (skipped=2),                            svn: 22877
+Ran 38 tests in 0.608s, OK (skipped=2),                            svn: 23025
+Ran 38 tests in 0.609s, OK (skipped=2),                            svn: 23176
+Ran 39 tests in 0.624s, OK (skipped=2),                            svn: 24022
+Ran 39 tests in 0.561s, OK (skipped=2),                            svn: 25424
+Ran 39 tests in 0.634s, OK (skipped=2),                            svn: 25750
+Ran 40 tests in 0.743s, OK (skipped=2),                            svn: 35406
+Ran 40 tests in 0.803s, OK (skipped=2),                            svn:  4829
+Ran 40 tests in 0.783s, OK (skipped=2),                            svn:  5233
+Ran 40 tests in 0.733s, OK (skipped=2),                            svn:  7631
+Ran 40 tests in 0.464s, OK (skipped=2),                            svn: 10471
+Ran 40 tests in 0.530s, OK (skipped=2),                            svn: 11071
+Ran 41 tests in 0.472s, OK (skipped=2),                            svn: 11998
+
+#-----------------------------------  eof  ------------------------------------#

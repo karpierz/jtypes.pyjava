@@ -1,39 +1,36 @@
-# Copyright (c) 2015-2019 Adam Karpierz
+# Copyright (c) 2015-2020 Adam Karpierz
 # Licensed under the MIT License
-# http://opensource.org/licenses/MIT
+# https://opensource.org/licenses/MIT
 
-from __future__ import absolute_import
+import jni
 
-from ...jvm.lib.compat import *
-from ...jvm.lib import annotate
+from jvm.jframe import JFrame
+
+from ._jvm import JVM
 
 
-@annotate('jt.jvm.JObject', utf8=bytes)
-def from_utf8(utf8):
-
+def from_utf8(utf8: bytes) -> 'jvm.JObject':
     # Create a Java string from standard UTF-8.
     #
-    # Java's string functions expect a modified UTF-8 encoding which noone else uses.
+    # Java's string functions expect a modified UTF-8 encoding.
     # These functions allow to use regular UTF-8, like Python does.
     #
-    # @param utf8 Standard UTF-8 representation of the string; might contain null bytes.
+    # @param utf8 Standard UTF-8 representation of the string;
+    #             might contain null bytes.
     # @return A reference (as jvm.JObject) to a String object.
     #
     # Equivalent of: string = new String(utf8, "UTF-8");
-
-    from ctypes import c_char_p
-    from ...    import jni
-    from ...jvm.jframe import JFrame
-    from ._jvm  import JVM
-
     with JVM.jvm as (jvm, jenv), JFrame(jenv, 3):
-        jbarr = jenv.NewByteArray(len(utf8))
+        size = len(utf8)
+        addr = jni.as_cstr(utf8)
+        jarr = jenv.NewByteArray(size)
+        jenv.SetByteArrayRegion(jarr, 0, size,
+                                jni.cast(addr, jni.POINTER(jni.jbyte)))
         jutf8 = jenv.NewStringUTF(b"UTF-8")
-        jenv.SetByteArrayRegion(jbarr, 0, len(utf8),
-                                jni.cast(c_char_p(utf8), jni.POINTER(jni.jbyte)))
         jargs = jni.new_array(jni.jvalue, 2)
-        jargs[0].l = jbarr
+        jargs[0].l = jarr
         jargs[1].l = jutf8
         jstr = jni.cast(jenv.NewObject(jvm.String.Class,
-                                       jvm.String.ConstructorFromBytes, jargs), jni.jstring)
+                                       jvm.String.ConstructorFromBytes,
+                                       jargs), jni.jstring)
         return JVM.jvm.JObject(jenv, jstr)

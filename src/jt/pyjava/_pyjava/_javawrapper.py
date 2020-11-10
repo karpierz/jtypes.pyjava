@@ -1,35 +1,30 @@
-# Copyright (c) 2015-2019 Adam Karpierz
+# Copyright (c) 2015-2020 Adam Karpierz
 # Licensed under the MIT License
-# http://opensource.org/licenses/MIT
+# https://opensource.org/licenses/MIT
 
 """
 Non-public functions of javawrapper.
 
 """
 
-from ...jvm.lib.compat import *
-from ...jvm.lib import annotate, Optional, Union, Tuple
+from typing import Optional, Union, Tuple
 
 from ._jclass  import JavaClass, JavaInstance
 from ._jmethod import Constructor
 
 
-@annotate(JavaClass, jclass='jt.jvm.JClass')
-def wrap_class(jclass):
-
+def wrap_class(jclass: 'jvm.JClass') -> JavaClass:
     # Build a Python wrapper for a Java class.
 
     klass = JavaClass()
     klass._jclass     = jclass
     klass.constructor = Constructor()
-    klass.constructor._jclass   = klass._jclass
-    klass.constructor.overloads = JavaClass._list_overloads(klass.constructor._jclass)
+    klass.constructor._jclass   = jclass
+    klass.constructor.overloads = JavaClass._list_overloads(jclass)
     return klass
 
 
-@annotate(Union[JavaClass, JavaInstance], jobject='jt.jvm.JObject')
-def wrap_instance(jobject):
-
+def wrap_instance(jobject: 'jvm.JObject') -> Union[JavaClass, JavaInstance]:
     # Wraps a JavaInstance object.
 
     jclass = jobject.getClass()
@@ -43,10 +38,8 @@ def wrap_instance(jobject):
         return jinstance
 
 
-@annotate(Tuple[Optional['jt.jvm.JObject'], Optional['jt.jvm.JClass']],
-          pyobject=object, with_javaclass=bool)
-def unwrap_instance(pyobject, with_javaclass=False):
-
+def unwrap_instance(pyobject: object, with_javaclass: bool = False) \
+    -> Tuple[Optional['jvm.JObject'], Optional['jvm.JClass']]:
     # Unwraps a JavaInstance object.
     #
     # @param with_javaclass Where to store the Java class.

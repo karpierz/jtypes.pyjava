@@ -1,9 +1,9 @@
-# Copyright (c) 2015-2019 Adam Karpierz
+# Copyright (c) 2015-2020 Adam Karpierz
 # Licensed under the MIT License
-# http://opensource.org/licenses/MIT
+# https://opensource.org/licenses/MIT
 
 from . import __config__ ; del __config__
-from .__about__ import * ; del __about__
+from .__about__ import * ; del __about__  # noqa
 
 from ._main   import start, getclass
 from ._pyjava import Error, ClassNotFound, NoMatchingOverload, FieldTypeError

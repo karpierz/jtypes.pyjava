@@ -1,17 +1,14 @@
-# Copyright (c) 2015-2019 Adam Karpierz
+# Copyright (c) 2015-2020 Adam Karpierz
 # Licensed under the MIT License
-# http://opensource.org/licenses/MIT
+# https://opensource.org/licenses/MIT
 
-from ...jvm.lib.compat import *
-from ...jvm.lib import annotate, Union, Tuple, List
+from typing import Union, Tuple, List
 
 from ._jclass     import JavaClass
 from ._exceptions import Error, ClassNotFound
 
 
-@annotate(bool, path=Union[builtins.str, str], options=Union[Tuple, List])
-def start(path, options):
-
+def start(path: str, options: Union[Tuple, List]) -> bool:
     """
     start(str, list) -> bool
 
@@ -25,7 +22,7 @@ def start(path, options):
     if JVM.jenv is not None:
         raise Error("Attempt to start() the JVM a second time.")
 
-    if not all(isinstance(option, builtins.str) for option in options):
+    if not all(isinstance(option, str) for option in options):
         raise TypeError("Options list contained non-string objects.")
 
     jvm = JVM(path.encode("utf-8").decode("utf-8"))
@@ -34,9 +31,7 @@ def start(path, options):
     return JVM.jenv is not None
 
 
-@annotate(JavaClass, class_name=Union[builtins.str, str])
-def getclass(class_name):
-
+def getclass(class_name: str) -> JavaClass:
     """
     getclass(str) -> JavaClass
 
@@ -54,7 +49,7 @@ def getclass(class_name):
 
     try:
         javaclass = JVM.jvm.JClass.forName(class_name)
-    except:
-        raise ClassNotFound(class_name)
+    except Exception:
+        raise ClassNotFound(class_name) from None
 
     return wrap_class(javaclass)

@@ -4,9 +4,6 @@ This package contains tests for the internal components of PyJava, implemented
 in C as the _pyjava package. Even if it is not used directly but rather through
 the pyjava Python interface, the package is covered by tests.
 """
-
-from __future__ import absolute_import
-
 import sys                                  # <AK> add
 if sys.version_info.major >= 3: long = int  #   -||-
 import math

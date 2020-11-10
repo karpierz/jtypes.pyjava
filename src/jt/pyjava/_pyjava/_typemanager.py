@@ -1,27 +1,23 @@
-# Copyright (c) 2015-2019 Adam Karpierz
+# Copyright (c) 2015-2020 Adam Karpierz
 # Licensed under the MIT License
-# http://opensource.org/licenses/MIT
+# https://opensource.org/licenses/MIT
 
-from ...jvm.lib.compat import *
-from ...jvm.lib import annotate
-from ...jvm.lib import public
+from jvm.lib import public
 
 from ._typehandler import *  # noqa
 
 
 @public
-class TypeManager(object):
+class TypeManager:
 
     __slots__ = ('_state', '_handlers')
 
     def __init__(self, state=None):
-
-        super(TypeManager, self).__init__()
+        super().__init__()
         self._state    = state
         self._handlers = {}
 
     def start(self):
-
         self._register_handler(VoidHandler)
         self._register_handler(BooleanHandler)
         self._register_handler(CharHandler)
@@ -33,17 +29,14 @@ class TypeManager(object):
         self._register_handler(DoubleHandler)
 
     def stop(self):
-
         self._handlers = {}
 
     def _register_handler(self, hcls):
-
         thandler = hcls(self._state)
         self._handlers[thandler._jclass] = thandler
         return thandler
 
     def get_handler(self, jclass):
-
         thandler = self._handlers.get(jclass)
         if thandler is None:
             Handler = ArrayHandler if jclass.isArray() else ObjectHandler

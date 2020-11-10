@@ -1,17 +1,14 @@
-# Copyright (c) 2015-2019 Adam Karpierz
+# Copyright (c) 2015-2020 Adam Karpierz
 # Licensed under the MIT License
-# http://opensource.org/licenses/MIT
+# https://opensource.org/licenses/MIT
 
-from ....jvm.lib.compat import *
-from ....jvm.lib import annotate
-from ....jvm.lib import public
+from jvm.lib import public
 
 from .._constants import EJavaType
-from .._constants import EMatchType
+from .._constants import EMatch
 from .._jvm       import JVM
 
 from ._base_handler import _PrimitiveHandler
-from ._base_handler import str_types
 
 
 @public
@@ -20,27 +17,24 @@ class CharHandler(_PrimitiveHandler):
     __slots__ = ()
 
     def __init__(self, state):
+        super().__init__(state, EJavaType.CHAR,
+                         JVM.jvm.JClass.getCharClass())
 
-        super(CharHandler, self).__init__(state, EJavaType.CHAR,
-                                          JVM.jvm.JClass.getCharClass())
     def match(self, val):
-
-        if isinstance(val, str_types):
+        if isinstance(val, str):
             if len(val) == 1:
-                return EMatchType.PERFECT
-        return EMatchType.NONE
+                return EMatch.PERFECT
+        return EMatch.NONE
 
     def valid(self, val):
-
-        if isinstance(val, str_types):
+        if isinstance(val, str):
             if len(val) != 1:
                 return False
         return True
 
     def toJava(self, val):
-
         val = val[0]
-        if isinstance(val, builtins.str):
+        if isinstance(val, str):
             return self._jt_jvm.JObject.newCharacter(val)
         else: # isinstance(val, str)
             # Hmm, this is supposed to be UCS2...
@@ -48,20 +42,17 @@ class CharHandler(_PrimitiveHandler):
             return self._jt_jvm.JObject.newCharacter(val)
 
     def toPython(self, val):
-
         if isinstance(val, self._jt_jvm.JObject):
             return val.charValue()
         else:
             return val
 
     def getStatic(self, fld, cls):
-
         return fld.getStaticChar(cls)
 
     def setStatic(self, fld, cls, val):
-
         val = val[0]
-        if isinstance(val, builtins.str):
+        if isinstance(val, str):
             fld.setStaticChar(cls, val)
         else: # isinstance(val, str)
             # Hmm, this is supposed to be UCS2...
@@ -69,13 +60,11 @@ class CharHandler(_PrimitiveHandler):
             fld.setStaticChar(cls, val)
 
     def getInstance(self, fld, this):
-
         return fld.getChar(this)
 
     def setInstance(self, fld, this, val):
-
         val = val[0]
-        if isinstance(val, builtins.str):
+        if isinstance(val, str):
             fld.setChar(this, val)
         else: # isinstance(val, str)
             # Hmm, this is supposed to be UCS2...
@@ -83,9 +72,8 @@ class CharHandler(_PrimitiveHandler):
             fld.setChar(this, val)
 
     def setArgument(self, pdescr, args, pos, val):
-
         val = val[0]
-        if isinstance(val, builtins.str):
+        if isinstance(val, str):
             args.setChar(pos, val)
         else: # isinstance(val, str)
             # Hmm, this is supposed to be UCS2...
@@ -93,9 +81,7 @@ class CharHandler(_PrimitiveHandler):
             args.setChar(pos, val)
 
     def callStatic(self, meth, cls, args):
-
         return meth.callStaticChar(cls, args)
 
     def callInstance(self, meth, this, args):
-
         return meth.callInstanceChar(this, args)

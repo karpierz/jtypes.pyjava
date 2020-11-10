@@ -1,1 +1,1 @@
-__import__("jvm._util", globals(), None, ["make_config"], 2).make_config("pyjava.cfg", "jt.pyjava")
+from jvm import _util as _ ; _.make_config("../pyjava.cfg", "jt.pyjava") ; del _

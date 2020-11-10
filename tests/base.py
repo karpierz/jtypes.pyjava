@@ -1,14 +1,10 @@
-from __future__ import absolute_import
-
 import os  # <AK> added
 import sys
-
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+import unittest  # <AK> removed unittest2 requirement
 
 from . import test_dir  # <AK> added
+
+test_java = os.path.join(test_dir, "java-tests")  # <AK> added
 
 
 class PyjavaTestCase(unittest.TestCase):
@@ -31,7 +27,7 @@ class PyjavaTestCase(unittest.TestCase):
 
 
         # This need to be called once, before running the test suite
-        class_path = os.path.join(test_dir, "java-tests", "classes")  # <AK> added
+        class_path = os.path.join(test_java, "classes")  # <AK> added
         _pyjava.start(dll, ["-Djava.class.path={}".format(class_path)])
 
         PyjavaTestCase._pyjava_started = True

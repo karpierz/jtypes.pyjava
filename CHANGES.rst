@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.1.5b1 (2020-11-09)
+--------------------
+- Fix for exception handling in start(...).
+- Add support for Python 3.8 and 3.9.
+- Drop support for Python2.
+- General update, improvements and cleanup.
+- Setup update.
+
 0.1.5a10 (2019-07-10)
 ---------------------
 - Last release for Python2.
