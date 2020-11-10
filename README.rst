@@ -122,7 +122,7 @@ Authors
 .. |respository| replace:: https://github.com/karpierz/jtypes.pyjava.git
 .. _development page: https://github.com/karpierz/jtypes.pyjava
 .. _PyPI record: https://pypi.org/project/jtypes.pyjava/
-.. _Documentation: https://jtypes.pyjava.readthedocs.io/
+.. _Documentation: https://jtypespyjava.readthedocs.io/
 .. _jvm: https://pypi.org/project/jvm/
 .. _jni: https://pypi.org/project/jni/
 .. _original website: https://github.com/remram44/pyjava/blob/master/README.md

@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.1.5b1 (2020-11-09)
+0.1.5b2 (2020-11-10)
 --------------------
 - Fix for exception handling in start(...).
 - Add support for Python 3.8 and 3.9.

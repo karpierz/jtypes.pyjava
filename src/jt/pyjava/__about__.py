@@ -10,7 +10,7 @@ __title__        = "jtypes.pyjava"
 __summary__      = "A Python to Java bridge (ctypes/cffi-based PyJava)."
 __uri__          = "https://pypi.org/project/jtypes.pyjava/"
 __version_info__ = type("version_info", (), dict(major=0, minor=1, micro=5,
-                        releaselevel="beta", serial=1))
+                        releaselevel="beta", serial=2))
 __version__      = "{0.major}.{0.minor}.{0.micro}{1}{2}".format(__version_info__,
                    dict(alpha="a", beta="b", candidate="rc", final="",
                         post=".post", dev=".dev")[__version_info__.releaselevel],
