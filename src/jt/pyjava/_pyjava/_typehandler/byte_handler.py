@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2020 Adam Karpierz
+# Copyright (c) 2015-2021 Adam Karpierz
 # Licensed under the MIT License
 # https://opensource.org/licenses/MIT
 
@@ -65,7 +65,7 @@ class ByteHandler(_PrimitiveHandler):
         #if isinstance(val, byte_types):
         #    args.setByte(pos, val[0])
         #else:
-        args.setByte(pos, int(val))
+        args.setByte(pos, val)
 
     def callStatic(self, meth, cls, args):
         return meth.callStaticByte(cls, args)

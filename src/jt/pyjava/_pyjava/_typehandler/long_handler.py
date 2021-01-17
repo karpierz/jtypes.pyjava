@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2020 Adam Karpierz
+# Copyright (c) 2015-2021 Adam Karpierz
 # Licensed under the MIT License
 # https://opensource.org/licenses/MIT
 
@@ -55,7 +55,7 @@ class LongHandler(_PrimitiveHandler):
         fld.setLong(this, int(val))
 
     def setArgument(self, pdescr, args, pos, val):
-        args.setLong(pos, int(val))
+        args.setLong(pos, val)
 
     def callStatic(self, meth, cls, args):
         return meth.callStaticLong(cls, args)

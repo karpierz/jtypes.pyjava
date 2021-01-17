@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2020 Adam Karpierz
+# Copyright (c) 2015-2021 Adam Karpierz
 # Licensed under the MIT License
 # https://opensource.org/licenses/MIT
 
@@ -59,7 +59,7 @@ class FloatHandler(_PrimitiveHandler):
         fld.setFloat(this, float(val))
 
     def setArgument(self, pdescr, args, pos, val):
-        args.setFloat(pos, float(val))
+        args.setFloat(pos, val)
 
     def callStatic(self, meth, cls, args):
         return meth.callStaticFloat(cls, args)

@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2020 Adam Karpierz
+# Copyright (c) 2015-2021 Adam Karpierz
 # Licensed under the MIT License
 # https://opensource.org/licenses/MIT
 
@@ -58,7 +58,7 @@ class DoubleHandler(_PrimitiveHandler):
         fld.setDouble(this, float(val))
 
     def setArgument(self, pdescr, args, pos, val):
-        args.setDouble(pos, float(val))
+        args.setDouble(pos, val)
 
     def callStatic(self, meth, cls, args):
         return meth.callStaticDouble(cls, args)

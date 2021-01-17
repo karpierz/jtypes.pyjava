@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2020 Adam Karpierz
+# Copyright (c) 2015-2021 Adam Karpierz
 # Licensed under the MIT License
 # https://opensource.org/licenses/MIT
 
@@ -55,7 +55,7 @@ class ShortHandler(_PrimitiveHandler):
         fld.setShort(this, int(val))
 
     def setArgument(self, pdescr, args, pos, val):
-        args.setShort(pos, int(val))
+        args.setShort(pos, val)
 
     def callStatic(self, meth, cls, args):
         return meth.callStaticShort(cls, args)

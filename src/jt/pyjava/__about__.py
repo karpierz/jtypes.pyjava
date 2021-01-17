@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2020 Adam Karpierz
+# Copyright (c) 2015-2021 Adam Karpierz
 # Licensed under the MIT License
 # https://opensource.org/licenses/MIT
 
@@ -10,7 +10,7 @@ __title__        = "jtypes.pyjava"
 __summary__      = "A Python to Java bridge (ctypes/cffi-based PyJava)."
 __uri__          = "https://pypi.org/project/jtypes.pyjava/"
 __version_info__ = type("version_info", (), dict(major=0, minor=1, micro=5,
-                        releaselevel="beta", serial=2))
+                        releaselevel="beta", serial=3))
 __version__      = "{0.major}.{0.minor}.{0.micro}{1}{2}".format(__version_info__,
                    dict(alpha="a", beta="b", candidate="rc", final="",
                         post=".post", dev=".dev")[__version_info__.releaselevel],
@@ -19,6 +19,6 @@ __version__      = "{0.major}.{0.minor}.{0.micro}{1}{2}".format(__version_info__
 __author__       = "Adam Karpierz"
 __maintainer__   = "Adam Karpierz"
 __email__        = "adam@karpierz.net"
-__copyright__    = "Copyright (c) 2015-2020 {0}".format(__author__)
+__copyright__    = "Copyright (c) 2015-2021 {0}".format(__author__)
 __license__      = "MIT License ; {0}".format(
                    "https://opensource.org/licenses/MIT")

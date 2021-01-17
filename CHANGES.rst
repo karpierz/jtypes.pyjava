@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.1.5b3 (2021-01-15)
+--------------------
+- Copyright year update.
+
 0.1.5b2 (2020-11-10)
 --------------------
 - Fix for exception handling in start(...).

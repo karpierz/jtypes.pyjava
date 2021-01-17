@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2020 Adam Karpierz
+# Copyright (c) 2015-2021 Adam Karpierz
 # Licensed under the MIT License
 # https://opensource.org/licenses/MIT
 
@@ -37,8 +37,9 @@ class TypeManager:
         return thandler
 
     def get_handler(self, jclass):
-        thandler = self._handlers.get(jclass)
-        if thandler is None:
+        try:
+            return self._handlers[jclass]
+        except KeyError:
             Handler = ArrayHandler if jclass.isArray() else ObjectHandler
             self._handlers[jclass] = thandler = Handler(self._state, jclass)
-        return thandler
+            return thandler
