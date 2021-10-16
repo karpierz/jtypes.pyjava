@@ -101,7 +101,7 @@ or on development mode:
 License
 =======
 
-  | Copyright (c) 2015-2021 Adam Karpierz
+  | Copyright (c) 2015-2022 Adam Karpierz
   | Licensed under the MIT License
   | https://opensource.org/licenses/MIT
   | Please refer to the accompanying LICENSE file.
