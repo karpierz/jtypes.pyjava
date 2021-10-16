@@ -43,7 +43,7 @@ class JVM(_JVM):
         from jvm.platform import JVMFinder
         from jvm          import EStatusCode
         if dll_path is not None:
-            self._dll_path = dll_path
+            self._dll_path = str(dll_path)
         elif self._dll_path is None:
             finder = JVMFinder()
             self._dll_path = finder.get_jvm_path()

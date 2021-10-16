@@ -97,7 +97,7 @@ class JavaClass:
             return class_method
 
         # We didn't find anything
-        raise AttributeError("Java class has no attribute {}".format(name))
+        raise AttributeError(f"Java class has no attribute {name}")
 
     def __setattr__(self, name, value):
 
@@ -121,8 +121,7 @@ class JavaClass:
             thandler = jfield.jvm.type_manager.get_handler(jfield.getType())
 
             if thandler.match(value) <= EMatch.EXPLICIT:
-                raise FieldTypeError("Java static attribute {} has incompatible type".format(
-                                     name))
+                raise FieldTypeError(f"Java static attribute {name} has incompatible type")
 
             if config.getboolean("WITH_VALID", False) and not thandler.valid(value):
                 raise ValueError("Assigned value is not valid for required field type.")
@@ -132,7 +131,7 @@ class JavaClass:
         except FieldTypeError:
             raise
         except AttributeError:
-            raise AttributeError("Java class has no static attribute {}".format(name)) from None
+            raise AttributeError(f"Java class has no static attribute {name}") from None
 
     def __eq__(self, other):
 
@@ -235,7 +234,7 @@ class JavaInstance:
             return thandler.getInstance(jfield, self._jobject)
 
         except AttributeError:
-            raise AttributeError("Java instance has no attribute {}".format(name)) from None
+            raise AttributeError(f"Java instance has no attribute {name}") from None
 
     def __setattr__(self, name, value):
 
@@ -261,8 +260,7 @@ class JavaInstance:
             thandler = jfield.jvm.type_manager.get_handler(jfield.getType())
 
             if thandler.match(value) <= EMatch.EXPLICIT:
-                raise FieldTypeError("Java nonstatic attribute {} has incompatible type".format(
-                                     name))
+                raise FieldTypeError(f"Java nonstatic attribute {name} has incompatible type")
 
             if config.getboolean("WITH_VALID", False) and not thandler.valid(value):
                 raise ValueError("Assigned value is not valid for required field type.")
@@ -272,8 +270,7 @@ class JavaInstance:
         except FieldTypeError:
             raise
         except AttributeError:
-            raise AttributeError("Java class has no nonstatic attribute {}".format(
-                                 name)) from None
+            raise AttributeError(f"Java class has no nonstatic attribute {name}") from None
 
     def __eq__(self, other):
 

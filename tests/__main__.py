@@ -5,7 +5,6 @@
 import unittest
 import sys
 import os
-import importlib
 import logging
 
 from . import test_dir
@@ -13,30 +12,30 @@ from . import test_dir
 log = logging.getLogger(__name__)
 
 
-def test_suite(names=None, omit=("run", "base")):
+def test_suite(names=None, omit=()):
     from . import __name__ as pkg_name
     from . import __path__ as pkg_path
     import unittest
     import pkgutil
     if names is None:
         names = [name for _, name, _ in pkgutil.iter_modules(pkg_path)
-                 if name != "__main__" and not name.startswith("tman_")
-                 and name not in omit]
+                 if name.startswith("test_") and name not in omit]
     names = [".".join((pkg_name, name)) for name in names]
     tests = unittest.defaultTestLoader.loadTestsFromNames(names)
     return tests
 
 
-def main(argv=sys.argv):
+def main(argv=sys.argv[1:]):
 
+    import importlib
     sys.modules["pyjava"]          = importlib.import_module("jt.pyjava")
     sys.modules["pyjava.find_dll"] = importlib.import_module("jt.pyjava.find_dll")
     sys.modules["_pyjava"]         = importlib.import_module("jt.pyjava._pyjava")
 
-    print("Running testsuite", "\n", file=sys.stderr)
+    print("Running testsuite\n", file=sys.stderr)
 
     try:
-        tests = test_suite(argv[1:] or None)
+        tests = test_suite(argv or None)
         result = unittest.TextTestRunner(verbosity=2).run(tests)
     finally:
         pass

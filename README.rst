@@ -67,12 +67,6 @@ To install run:
 
     python -m pip install --upgrade |package|
 
-To ensure everything is running correctly you can run the tests using:
-
-  .. parsed-literal::
-
-    python -m jt.pyjava.tests
-
 Development
 ===========
 

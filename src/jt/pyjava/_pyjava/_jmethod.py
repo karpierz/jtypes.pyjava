@@ -40,18 +40,18 @@ class JavaCallable(coll_abc.Callable):
                 best_ovrs.append(ovr)
 
         if len(best_ovrs) == 0:
-            raise NoMatchingOverload("{} {} with {} parameters (no match)".format(
-                                     nonmatches, msg, len(args)))
+            raise NoMatchingOverload(f"{nonmatches} {msg} with {len(args)} "
+                                     "parameters (no match)")
 
         if len(best_ovrs) > 1:
             # Several methods matched the given arguments.
             # We'll use the first method we found.
             # The Java compiler shouldn't let this happen... may be a bug
             # in the convert module?
-            warnings.warn("Multiple Java {} matching Python parameters".format(msg),
+            warnings.warn(f"Multiple Java {msg} matching Python parameters",
                           RuntimeWarning)
             raise Exception("RuntimeWarning:" + " " +
-                            "Multiple Java {} matching Python parameters".format(msg))
+                            f"Multiple Java {msg} matching Python parameters")
 
         return best_ovrs[0], nonmatches
 
@@ -100,8 +100,8 @@ class _Method(JavaCallable):
                 this = thandler.toJava(args[0])
                 return best_ovr.call_instance(this, *args)
         except Exception:  # ??? # if ret == NULL
-            raise NoMatchingOverload("{} methods with {} parameters (no match)".format(
-                                     nonmatches, len(args))) from None
+            raise NoMatchingOverload(f"{nonmatches} methods with {len(args)} "
+                                     "parameters (no match)") from None
 
 
 @public
@@ -134,8 +134,8 @@ class UnboundMethod(_Method):
                 this = thandler.toJava(args[0])
                 return best_ovr.call_instance(this, *args)
         except Exception:  # ??? # if ret == NULL
-            raise NoMatchingOverload("{} methods with {} parameters (no match)".format(
-                                     nonmatches, len(args))) from None
+            raise NoMatchingOverload(f"{nonmatches} methods with {len(args)} "
+                                     "parameters (no match)") from None
 
 
 @public
@@ -175,8 +175,8 @@ class BoundMethod(_Method):
             # return best_ovr.call_instance(this, *bound_args)
             return best_ovr.call_instance(this, *args)
         except Exception:  # ??? # if ret == NULL
-            raise NoMatchingOverload("{} methods with {} parameters (no match)".format(
-                                     nonmatches, len(bound_args))) from None
+            raise NoMatchingOverload(f"{nonmatches} methods with {len(bound_args)} "
+                                     "parameters (no match)") from None
 
 
 @public

@@ -43,4 +43,4 @@ class ClassHandler(_ObjectHandler):
         elif isinstance(val, self._jt_jvm.JObject):
             return self._state.class_importer.defineClass(val.asClass())
         # what else could it be ...
-        raise TypeError("Requires jvm.JClass or jvm.JObject, not {}".format(type(val)))
+        raise TypeError(f"Requires jvm.JClass or jvm.JObject, not {type(val)}")

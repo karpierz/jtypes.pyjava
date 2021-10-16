@@ -22,7 +22,7 @@ def start(path: Optional[str] = None, *args):
     try:
         _pyjava.start(path, args)
     except Error:
-        raise Error("Unable to start Java VM with path {}".format(path)) from None
+        raise Error(f"Unable to start Java VM with path {path}") from None
 
 
 def getclass(class_name: str):

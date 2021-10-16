@@ -4,9 +4,9 @@ This package contains tests for the internal components of PyJava, implemented
 in C as the _pyjava package. Even if it is not used directly but rather through
 the pyjava Python interface, the package is covered by tests.
 """
-import sys                                  # <AK> add
-if sys.version_info.major >= 3: long = int  #   -||-
+
 import math
+long = int  # <AK> add
 
 import _pyjava
 
@@ -295,14 +295,13 @@ class Test_set_field(PyjavaTestCase):
         self.assertEqual(sf.c, MIN_INT)
         # jt extension: WITH_VALID
         if config.getboolean("WITH_VALID", False):
-            RaisedError = ValueError if sys.version_info.major >= 3 else TypeError
-            with self.assertRaises(RaisedError):
+            with self.assertRaises(ValueError):
                 SetField.a = 2**31
-            with self.assertRaises(RaisedError): 
+            with self.assertRaises(ValueError): 
                 SetField.a = MIN_INT-1
-            with self.assertRaises(RaisedError):
+            with self.assertRaises(ValueError):
                 sf.c = 2**31
-            with self.assertRaises(RaisedError):
+            with self.assertRaises(ValueError):
                 sf.c = MIN_INT-1
 
 
