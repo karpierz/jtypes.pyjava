@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.1.5b6 (2022-01-28)
+--------------------
+- Drop support for Python 3.6.
+- Setup update.
+
 0.1.5b5 (2021-10-16)
 --------------------
 - dll_path argument of JVM() can also be type os.PathLike.
@@ -47,6 +52,6 @@ Changelog
 ---------------------
 - First alpha release.
 
-0.0.1 (2015-10-05)
+0.0.1 (2016-01-05)
 ------------------
 - Initial version.

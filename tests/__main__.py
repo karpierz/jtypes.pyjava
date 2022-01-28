@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2022 Adam Karpierz
+# Copyright (c) 2016-2022 Adam Karpierz
 # Licensed under the MIT License
 # https://opensource.org/licenses/MIT
 
@@ -33,7 +33,6 @@ def main(argv=sys.argv[1:]):
     sys.modules["_pyjava"]         = importlib.import_module("jt.pyjava._pyjava")
 
     print("Running testsuite\n", file=sys.stderr)
-
     try:
         tests = test_suite(argv or None)
         result = unittest.TextTestRunner(verbosity=2).run(tests)

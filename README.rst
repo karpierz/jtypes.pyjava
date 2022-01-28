@@ -51,7 +51,7 @@ Installation
 
 Prerequisites:
 
-+ Python 3.6 or higher
++ Python 3.7 or higher
 
   * https://www.python.org/
   * 3.7 with Java 8 is a primary test environment.
@@ -101,7 +101,7 @@ or on development mode:
 License
 =======
 
-  | Copyright (c) 2015-2022 Adam Karpierz
+  | Copyright (c) 2016-2022 Adam Karpierz
   | Licensed under the MIT License
   | https://opensource.org/licenses/MIT
   | Please refer to the accompanying LICENSE file.
