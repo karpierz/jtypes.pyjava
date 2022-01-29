@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.1.5b6 (2022-01-28)
+0.1.5b6 (2022-01-29)
 --------------------
 - Drop support for Python 3.6.
 - Setup update.
