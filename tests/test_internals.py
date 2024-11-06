@@ -297,7 +297,7 @@ class Test_set_field(PyjavaTestCase):
         if config.getboolean("WITH_VALID", False):
             with self.assertRaises(ValueError):
                 SetField.a = 2**31
-            with self.assertRaises(ValueError): 
+            with self.assertRaises(ValueError):
                 SetField.a = MIN_INT-1
             with self.assertRaises(ValueError):
                 sf.c = 2**31

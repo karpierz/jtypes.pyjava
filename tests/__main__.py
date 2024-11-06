@@ -1,10 +1,8 @@
-# Copyright (c) 2016-2022 Adam Karpierz
-# Licensed under the MIT License
-# https://opensource.org/licenses/MIT
+# Copyright (c) 2016 Adam Karpierz
+# SPDX-License-Identifier: MIT
 
 import unittest
 import sys
-import os
 import logging
 
 from . import test_dir
@@ -32,13 +30,9 @@ def main(argv=sys.argv[1:]):
     sys.modules["pyjava.find_dll"] = importlib.import_module("jt.pyjava.find_dll")
     sys.modules["_pyjava"]         = importlib.import_module("jt.pyjava._pyjava")
 
-    print("Running testsuite\n", file=sys.stderr)
-    try:
-        tests = test_suite(argv or None)
-        result = unittest.TextTestRunner(verbosity=2).run(tests)
-    finally:
-        pass
-
+    print("Running tests\n", file=sys.stderr)
+    tests = test_suite(argv or None)
+    result = unittest.TextTestRunner(verbosity=2).run(tests)
     return 0 if result.wasSuccessful() else 1
 
 

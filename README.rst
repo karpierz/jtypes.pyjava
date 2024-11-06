@@ -51,10 +51,10 @@ Installation
 
 Prerequisites:
 
-+ Python 3.7 or higher
++ Python 3.9 or higher
 
   * https://www.python.org/
-  * 3.7 with Java 8 is a primary test environment.
+  * Java 11 is a primary test environment.
 
 + pip and setuptools
 
@@ -76,7 +76,7 @@ Prerequisites:
 
     python -m pip install --upgrade tox
 
-Visit `development page`_.
+Visit `Development page`_.
 
 Installation from sources:
 
@@ -101,9 +101,9 @@ or on development mode:
 License
 =======
 
-  | Copyright (c) 2016-2022 Adam Karpierz
+  | |copyright|
   | Licensed under the MIT License
-  | https://opensource.org/licenses/MIT
+  | https://opensource.org/license/mit
   | Please refer to the accompanying LICENSE file.
 
 Authors
@@ -113,8 +113,9 @@ Authors
 
 .. |package| replace:: jtypes.pyjava
 .. |package_bold| replace:: **jtypes.pyjava**
+.. |copyright| replace:: Copyright (c) 2016-2024 Adam Karpierz
 .. |respository| replace:: https://github.com/karpierz/jtypes.pyjava.git
-.. _development page: https://github.com/karpierz/jtypes.pyjava
+.. _Development page: https://github.com/karpierz/jtypes.pyjava
 .. _PyPI record: https://pypi.org/project/jtypes.pyjava/
 .. _Documentation: https://jtypespyjava.readthedocs.io/
 .. _jvm: https://pypi.org/project/jvm/
