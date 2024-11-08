@@ -1,0 +1,8 @@
+Url:       https://github.com/remram44/pyjava/archive/refs/heads/master.zip
+Url redir: https://codeload.github.com/remram44/pyjava/zip/refs/heads/master
+Completed: 2024-11-06 19:24:32
+File name: pyjava-master.zip
+File date: 2024-11-06 19:24:32
+File size: 36186
+SHA256sum: 007ECC6A26A63341DD59E508D1F928EA64F142FBE2660DF8D7562451B9CA0B47
+SHA1sum:   A73CF59A2961AE56357D1B9515F022A3F77DC06C

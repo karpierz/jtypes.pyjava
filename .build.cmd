@@ -12,5 +12,6 @@ dir /S/B/O:N ^
 %javac% -d java-tests/classes -classpath java-tests/lib/* @build.fil
 del /F/Q build.fil
 popd
+
 :exit
 endlocal
